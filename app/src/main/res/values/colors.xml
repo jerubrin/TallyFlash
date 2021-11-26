@@ -13,4 +13,5 @@
     <color name="active">#B00000</color>
 
     <color name="error_background">#66B00000</color>
+    <color name="error_text">#F80D0D</color>
 </resources>

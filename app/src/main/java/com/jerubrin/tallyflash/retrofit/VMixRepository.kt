@@ -5,23 +5,26 @@ import com.jerubrin.tallyflash.data.WorkingScenes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class VMixRepository @Inject constructor(
     private val vMixApi: VMixApi
 ) {
     
-    suspend fun getScenesList(): List<Scene>? =
+    suspend fun getScenesList(): List<Scene>? {
         withContext(Dispatchers.IO) {
             vMixApi.renewRetrofit()
-            vMixApi.getData()?.inputs?.map {
-                Scene(
-                    it.key,
-                    it.number,
-                    it.type,
-                    it.shortTitle
-                )
-            }
         }
+        return vMixApi.getData()?.inputs?.map {
+            Scene(
+                it.key,
+                it.number,
+                it.type,
+                it.shortTitle
+            )
+        }
+    }
     
     suspend fun getWorkingScenes() =
         WorkingScenes( getActive(), getPreview() )

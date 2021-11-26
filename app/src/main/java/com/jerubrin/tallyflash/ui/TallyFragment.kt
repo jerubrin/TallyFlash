@@ -75,6 +75,8 @@ class TallyFragment : Fragment() {
                 }
             }
         }
+    
+        viewModel.isUpdating = true
         
         return binding.root
     }
@@ -82,6 +84,7 @@ class TallyFragment : Fragment() {
     override fun onDestroyView() {
         serviceIntent.putExtra(FlashControlService.CURRENT_SCENE_NUMBER, -1)
         activity?.application?.startService(serviceIntent)
+        viewModel.isUpdating = false
         super.onDestroyView()
     }
 }

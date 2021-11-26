@@ -22,6 +22,8 @@ class TallyViewModel @Inject constructor(
     val sharedPrefMain: SharedPrefMainProvider
 ) : ViewModel() {
     
+    var isUpdating: Boolean = false
+    
     var currentScene: MutableStateFlow<Scene?> = MutableStateFlow(null)
     
     private var _sceneState: MutableStateFlow<SceneState> = MutableStateFlow(SceneState.OFF)
@@ -47,20 +49,22 @@ class TallyViewModel @Inject constructor(
     private fun autoReadState() {
         viewModelScope.launch {
             while (true) {
-                vMixInteractor.getWorkingScenes()
-                val uiState = vMixInteractor.uiState.value
-                if (uiState is UiState.Ready<*>) {
-                    val workingScenes = uiState.data as WorkingScenes
-                    val active = workingScenes.active
-                    val preview = workingScenes.preview
-                    when(currentScene.value?.number ?: -2) {
-                        active -> _sceneState.value = SceneState.ACTIVE
-                        preview -> _sceneState.value = SceneState.PREVIEW
-                        else -> _sceneState.value = SceneState.OFF
+                if (isUpdating) {
+                    vMixInteractor.getWorkingScenes()
+                    val uiState = vMixInteractor.uiState.value
+                    if (uiState is UiState.Ready<*>) {
+                        val workingScenes = uiState.data as WorkingScenes
+                        val active = workingScenes.active
+                        val preview = workingScenes.preview
+                        when(currentScene.value?.number ?: -2) {
+                            active -> _sceneState.value = SceneState.ACTIVE
+                            preview -> _sceneState.value = SceneState.PREVIEW
+                            else -> _sceneState.value = SceneState.OFF
+                        }
                     }
-                }
-                if (uiState is UiState.Error) {
-                    _sceneState.value = SceneState.ERROR
+                    if (uiState is UiState.Error) {
+                        _sceneState.value = SceneState.ERROR
+                    }
                 }
                 
                 delay(200)

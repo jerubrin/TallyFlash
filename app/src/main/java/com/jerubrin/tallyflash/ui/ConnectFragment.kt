@@ -44,14 +44,27 @@ class ConnectFragment : Fragment() {
             val url = binding.editTextIp.text.toString()
             val port = binding.editTextPort.text.toString()
             
-            setSharedPrefs(url, port)
-            
-            val action =
-                ConnectFragmentDirections.actionConnectFragmentToScenesListFragment()
-            findNavController().navigate(action)
+            if (checkIpAndPort(url, port)) {
+                setSharedPrefs(url, port)
+    
+                val action =
+                    ConnectFragmentDirections.actionConnectFragmentToScenesListFragment()
+                findNavController().navigate(action)
+            }
         }
         
         return binding.root
+    }
+    
+    private fun checkIpAndPort(url: String, port: String): Boolean {
+        if (url.count{ ".".contains(it) } != 3)
+            return false
+        val urlWithoutPoints = url.replace(".", "")
+        if (urlWithoutPoints.toLongOrNull() == null)
+            return false
+        if (port.toIntOrNull() == null)
+            return false
+        return true
     }
     
     private fun setSharedPrefs(ip: String, port: String) {

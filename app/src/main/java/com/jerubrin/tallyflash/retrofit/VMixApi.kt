@@ -6,8 +6,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.inject.Singleton
 
-
+@Singleton
 class VMixApi @Inject constructor(
     private val sharedPrefConnection: SharedPrefConnectionProvider,
 ) {

@@ -15,7 +15,7 @@ class VMixInteractor @Inject constructor(
     val uiState: StateFlow<UiState> = _uiState
     
     suspend fun getVMix() {
-        _uiState.value = getData(V_MIX_LIST)
+         _uiState.value = getData(V_MIX_LIST)
     }
     
     suspend fun getWorkingScenes() {
