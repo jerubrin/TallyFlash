@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="main_margin">16dp</dimen>
+    <dimen name="text_size_app_name">32sp</dimen>
+    <dimen name="margin_app_name">32dp</dimen>
+    <dimen name="text_size">20sp</dimen>
+    <dimen name="edit_text_size">24sp</dimen>
+    <dimen name="text_size_number">170sp</dimen>
+    <dimen name="margin_list">8sp</dimen>
+</resources>

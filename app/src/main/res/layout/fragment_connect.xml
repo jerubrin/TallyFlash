@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.ConnectFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/text_view_app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textSize="@dimen/text_size_app_name"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="@dimen/margin_app_name" />
+
+        <TextView
+            android:id="@+id/text_view_ip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/ip_address"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintTop_toBottomOf="@id/text_view_app_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/margin_app_name"
+            android:layout_marginHorizontal="@dimen/main_margin"/>
+        <EditText
+            android:id="@+id/edit_text_ip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="192.168.0.1"
+            android:maxLines="1"
+            android:inputType="date"
+            android:textSize="@dimen/edit_text_size"
+            app:layout_constraintTop_toBottomOf="@id/text_view_ip"
+            app:layout_constraintStart_toStartOf="@id/text_view_ip"
+            app:layout_constraintEnd_toEndOf="@id/text_view_ip"/>
+
+        <TextView
+            android:id="@+id/text_view_port"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/port"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintTop_toBottomOf="@id/edit_text_ip"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/main_margin"
+            android:layout_marginHorizontal="@dimen/main_margin"/>
+        <EditText
+            android:id="@+id/edit_text_port"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:text="8088"
+            android:inputType="number"
+            android:maxLines="1"
+            android:textSize="@dimen/edit_text_size"
+            app:layout_constraintTop_toBottomOf="@id/text_view_port"
+            app:layout_constraintStart_toStartOf="@id/text_view_ip"
+            app:layout_constraintEnd_toEndOf="@id/text_view_ip"/>
+
+        <Button
+            android:id="@+id/btn_connect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/connect"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintHorizontal_bias="0"
+            android:layout_marginTop="@dimen/main_margin"
+            app:layout_constraintStart_toStartOf="@id/text_view_ip"
+            app:layout_constraintEnd_toEndOf="@id/text_view_ip"
+            app:layout_constraintTop_toBottomOf="@id/edit_text_port"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

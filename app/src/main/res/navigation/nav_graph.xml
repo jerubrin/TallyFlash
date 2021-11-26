@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/connectFragment">
+
+    <fragment
+        android:id="@+id/connectFragment"
+        android:name="com.jerubrin.tallyflash.ui.ConnectFragment"
+        android:label="fragment_connect"
+        tools:layout="@layout/fragment_connect" >
+        <action
+            android:id="@+id/action_connectFragment_to_scenesListFragment"
+            app:destination="@id/scenesListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/scenesListFragment"
+        android:name="com.jerubrin.tallyflash.ui.ScenesListFragment"
+        android:label="fragment_scenes_list"
+        tools:layout="@layout/fragment_scenes_list" >
+        <action
+            android:id="@+id/action_scenesListFragment_to_tallyFragment"
+            app:destination="@id/tallyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tallyFragment"
+        android:name="com.jerubrin.tallyflash.ui.TallyFragment"
+        android:label="fragment_tally"
+        tools:layout="@layout/fragment_tally" >
+        <argument
+            android:name="scene"
+            app:argType="com.jerubrin.tallyflash.data.Scene" />
+    </fragment>
+</navigation>
