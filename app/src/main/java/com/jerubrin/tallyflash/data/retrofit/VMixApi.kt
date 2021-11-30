@@ -1,51 +1,55 @@
 package com.jerubrin.tallyflash.data.retrofit
 
-import com.jerubrin.tallyflash.domain.usecase.ReadSharedPrefConnectionUseCase
+import com.jerubrin.tallyflash.entity.ConnectionData
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 import javax.inject.Singleton
 
 
 @Singleton
-class VMixApi @Inject constructor(
-    private val readSharedPrefConnectionUseCase: ReadSharedPrefConnectionUseCase
-) {
-    private var retrofit : Retrofit =
-        newRetrofit()
+class VMixApi  {
     
-    private var retrofitService =
-        setRetrofitService()
+    private var retrofit : Retrofit? =
+        newRetrofit(null)
+    
+    private var retrofitService: VMixLoader? =
+        null
     
     suspend fun getData(): VMix? =
-        retrofitService.getVMix().body()
+        retrofitService?.getVMix()?.body()
     
-    fun renewRetrofit() {
-        retrofit = newRetrofit()
+    fun renewRetrofit(connectionData: ConnectionData) {
+        retrofit = newRetrofit(connectionData)
         retrofitService = setRetrofitService()
     }
     
-    private fun newRetrofit(): Retrofit {
-        val connectionData = readSharedPrefConnectionUseCase.execute()
-        return Retrofit.Builder()
-            .addConverterFactory(SimpleXmlConverterFactory.create())
-            .baseUrl(
-                "http://${connectionData.ip}:${connectionData.port}"
-            )
-            .client(setTimeoutOkHttpClient(500L))
-            .build()
-    }
+    private fun newRetrofit(connectionData: ConnectionData?): Retrofit? =
+        if (connectionData != null) {
+            Retrofit.Builder()
+                .addConverterFactory(SimpleXmlConverterFactory.create())
+                .baseUrl(
+                    "http://${connectionData.ip}:${connectionData.port}"
+                )
+                .client(setTimeoutOkHttpClient())
+                .build()
+        } else {
+            null
+        }
     
-    private fun setRetrofitService() =
-        retrofit.create(VMixLoader::class.java)
+    private fun setRetrofitService(): VMixLoader? =
+        retrofit?.create(VMixLoader::class.java)
     
     
-    private fun setTimeoutOkHttpClient(millis: Long) = OkHttpClient()
+    private fun setTimeoutOkHttpClient() = OkHttpClient()
         .newBuilder()
-        .connectTimeout(millis, TimeUnit.MILLISECONDS)
-        .readTimeout(millis, TimeUnit.MILLISECONDS)
-        .writeTimeout(millis, TimeUnit.MILLISECONDS)
+        .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
+        .readTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
+        .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
         .build()
+    
+    companion object {
+        const val DEFAULT_TIMEOUT = 500L
+    }
 }

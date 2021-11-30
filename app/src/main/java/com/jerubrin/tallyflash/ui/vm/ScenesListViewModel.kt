@@ -15,5 +15,5 @@ class ScenesListViewModel @Inject constructor(
 ) : ViewModel() {
     
     fun loadSceneList(): Flow<UiState> =
-        sceneListUseCase.execute(Unit)
+        sceneListUseCase.execute(readSharedPrefConnectionUseCase.execute())
 }

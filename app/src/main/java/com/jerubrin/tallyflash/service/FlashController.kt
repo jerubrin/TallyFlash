@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.hardware.camera2.CameraManager
 import android.os.Build
-import androidx.annotation.RequiresApi
 import com.jerubrin.tallyflash.domain.usecase.ReadSharedPrefMainUseCase
 import com.jerubrin.tallyflash.entity.FlashReactionState
 import com.jerubrin.tallyflash.entity.SceneState
@@ -16,7 +15,6 @@ import kotlinx.coroutines.launch
 import javax.inject.Singleton
 
 @Singleton
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class FlashController(
     private val context: Context,
     private val flashTimer: FlashTimer,
@@ -50,6 +48,8 @@ class FlashController(
                         doPreviewFlash()
                     SceneState.OFF ->
                         doOffFlash()
+                    else ->
+                        Unit
                 }
                 wasSceneState = sceneState
             }

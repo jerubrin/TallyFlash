@@ -3,6 +3,7 @@ package com.jerubrin.tallyflash.data
 import com.jerubrin.tallyflash.entity.Scene
 import com.jerubrin.tallyflash.entity.WorkingScenes
 import com.jerubrin.tallyflash.data.retrofit.VMixApi
+import com.jerubrin.tallyflash.entity.ConnectionData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -13,9 +14,9 @@ class VMixRepository @Inject constructor(
     private val vMixApi: VMixApi
 ) {
     
-    suspend fun getScenesList(): List<Scene>? {
+    suspend fun getScenesList(connectionData: ConnectionData): List<Scene>? {
         withContext(Dispatchers.IO) {
-            vMixApi.renewRetrofit()
+            vMixApi.renewRetrofit(connectionData)
         }
         return vMixApi.getData()?.inputs?.map {
             Scene(
