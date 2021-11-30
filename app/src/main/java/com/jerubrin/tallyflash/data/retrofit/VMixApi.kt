@@ -1,6 +1,6 @@
-package com.jerubrin.tallyflash.retrofit
+package com.jerubrin.tallyflash.data.retrofit
 
-import com.jerubrin.tallyflash.prefs.SharedPrefConnectionProvider
+import com.jerubrin.tallyflash.domain.usecase.ReadSharedPrefConnectionUseCase
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
@@ -8,9 +8,10 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
+
 @Singleton
 class VMixApi @Inject constructor(
-    private val sharedPrefConnection: SharedPrefConnectionProvider,
+    private val readSharedPrefConnectionUseCase: ReadSharedPrefConnectionUseCase
 ) {
     private var retrofit : Retrofit =
         newRetrofit()
@@ -26,14 +27,16 @@ class VMixApi @Inject constructor(
         retrofitService = setRetrofitService()
     }
     
-    private fun newRetrofit(): Retrofit =
-        Retrofit.Builder()
+    private fun newRetrofit(): Retrofit {
+        val connectionData = readSharedPrefConnectionUseCase.execute()
+        return Retrofit.Builder()
             .addConverterFactory(SimpleXmlConverterFactory.create())
             .baseUrl(
-                "http://${sharedPrefConnection.getUrl()}:${sharedPrefConnection.getPort()}"
+                "http://${connectionData.ip}:${connectionData.port}"
             )
             .client(setTimeoutOkHttpClient(500L))
             .build()
+    }
     
     private fun setRetrofitService() =
         retrofit.create(VMixLoader::class.java)

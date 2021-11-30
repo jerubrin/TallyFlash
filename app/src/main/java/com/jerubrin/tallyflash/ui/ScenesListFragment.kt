@@ -10,13 +10,16 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jerubrin.tallyflash.data.Scene
+import com.jerubrin.tallyflash.R
+import com.jerubrin.tallyflash.entity.Scene
 import com.jerubrin.tallyflash.databinding.FragmentScenesListBinding
 import com.jerubrin.tallyflash.domain.UiState
+import com.jerubrin.tallyflash.entity.ConnectionData
 import com.jerubrin.tallyflash.ui.adapter.InputsListAdapter
 import com.jerubrin.tallyflash.ui.vm.ScenesListViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.lang.IllegalStateException
 
 class ScenesListFragment : Fragment() {
     
@@ -24,11 +27,6 @@ class ScenesListFragment : Fragment() {
     
     private var _binding: FragmentScenesListBinding? = null
     private val binding get() = _binding !!
-    
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.loadVMixList()
-    }
     
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,33 +41,50 @@ class ScenesListFragment : Fragment() {
         }
         
         lifecycleScope.launch {
-            viewModel.uiState.collectLatest {
+            viewModel.loadSceneList().collectLatest {
                 when(it) {
-                    is UiState.Loading -> {
-                        binding.progressLoading.isVisible = true
-                        binding.frameError.isVisible = false
-                    }
-                    is UiState.Error -> {
-                        binding.progressLoading.isVisible = false
-                        binding.textViewErrorMsg.text = it.errorMessage
-                        binding.frameError.isVisible = true
-                        binding.btnRetry.setOnClickListener {
-                            viewModel.loadVMixList()
-                        }
-                    }
-                    is UiState.Ready<*> -> {
-                        binding.progressLoading.isVisible = false
-                        binding.frameError.isVisible = false
-                        if (it.data is List<*>) {
-                            val data = it.data as List<Scene>
-                            inputsListAdapter.submitList(data)
-                        }
-                    }
+                    is UiState.Loading ->
+                        showLoading()
+                    is UiState.Error ->
+                        showError()
+                    is UiState.Ready<*> ->
+                        showSceneList(it, inputsListAdapter)
+                    else ->
+                        throw IllegalStateException("Unknown State received!")
                 }
             }
         }
+    
+        binding.btnRetry.setOnClickListener {
+            viewModel.loadSceneList()
+        }
         
         return binding.root
+    }
+    
+    private fun showSceneList(it: UiState.Ready<*>, adapter: InputsListAdapter) {
+        binding.progressLoading.isVisible = false
+        binding.frameError.isVisible = false
+        if (it.data is List<*>) {
+            adapter.submitList(it.data as MutableList<Scene>)
+        }
+    }
+    
+    private fun showLoading() {
+        binding.progressLoading.isVisible = true
+        binding.frameError.isVisible = false
+    }
+    
+    private fun showError() {
+        val connectionData = viewModel.readSharedPrefConnectionUseCase.execute()
+        binding.progressLoading.isVisible = false
+        binding.textViewErrorMsg.text =
+            getString(
+                R.string.connection_error,
+                connectionData.ip,
+                connectionData.port
+            )
+        binding.frameError.isVisible = true
     }
     
     private fun onItemClick (scene: Scene) {

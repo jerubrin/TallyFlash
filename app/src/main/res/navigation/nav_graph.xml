@@ -30,6 +30,6 @@
         tools:layout="@layout/fragment_tally" >
         <argument
             android:name="scene"
-            app:argType="com.jerubrin.tallyflash.data.Scene" />
+            app:argType="com.jerubrin.tallyflash.entity.Scene" />
     </fragment>
 </navigation>

@@ -7,28 +7,37 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.jerubrin.tallyflash.R
 import com.jerubrin.tallyflash.databinding.FragmentConnectBinding
-import com.jerubrin.tallyflash.prefs.SharedPrefConnectionProvider
+import com.jerubrin.tallyflash.domain.usecase.ReadSharedPrefConnectionUseCase
+import com.jerubrin.tallyflash.domain.usecase.WriteSharedPrefConnectionUseCase
+import com.jerubrin.tallyflash.entity.ConnectionData
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.InternalCoroutinesApi
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class ConnectFragment : Fragment() {
     
-    lateinit var ipAddress: String
+    lateinit var url: String
     lateinit var port: String
     
     private var _binding: FragmentConnectBinding? = null
     private val binding get() = _binding!!
     
     @Inject
-    lateinit var sharedPrefConnection: SharedPrefConnectionProvider
+    lateinit var readSharedPrefConnectionUseCase: ReadSharedPrefConnectionUseCase
+    
+    @Inject
+    lateinit var writeSharedPrefConnectionUseCase: WriteSharedPrefConnectionUseCase
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
-        ipAddress = sharedPrefConnection.getUrl()
-        port = sharedPrefConnection.getPort()
+    
+        val connectionData = readSharedPrefConnectionUseCase.execute()
+        url = connectionData.ip
+        port = connectionData.port
     }
     
     override fun onCreateView(
@@ -37,38 +46,45 @@ class ConnectFragment : Fragment() {
     ): View {
         _binding = FragmentConnectBinding.inflate(inflater, container, false)
         
-        binding.editTextIp.setText(ipAddress)
+        binding.editTextIp.setText(url)
         binding.editTextPort.setText(port)
         
         binding.btnConnect.setOnClickListener {
-            val url = binding.editTextIp.text.toString()
-            val port = binding.editTextPort.text.toString()
+            url = binding.editTextIp.text.toString()
+            port = binding.editTextPort.text.toString()
             
-            if (checkIpAndPort(url, port)) {
-                setSharedPrefs(url, port)
-    
-                val action =
-                    ConnectFragmentDirections.actionConnectFragmentToScenesListFragment()
-                findNavController().navigate(action)
+            when (checkIpAndPort(url, port)) {
+                InputCheck.CORRECT -> {
+                    val connectionData = ConnectionData(ip = url, port = port)
+                    writeSharedPrefConnectionUseCase.execute(connectionData)
+        
+                    val action =
+                        ConnectFragmentDirections.actionConnectFragmentToScenesListFragment()
+                    findNavController().navigate(action)
+                }
+                InputCheck.WRONG_IP ->
+                    binding.textViewErrorMessage.text = getString(R.string.wrong_ip)
+                InputCheck.WRONG_PORT  ->
+                    binding.textViewErrorMessage.text = getString(R.string.wrong_port)
             }
         }
         
         return binding.root
     }
     
-    private fun checkIpAndPort(url: String, port: String): Boolean {
+    private fun checkIpAndPort(url: String, port: String): InputCheck {
         if (url.count{ ".".contains(it) } != 3)
-            return false
-        val urlWithoutPoints = url.replace(".", "")
-        if (urlWithoutPoints.toLongOrNull() == null)
-            return false
+            return InputCheck.WRONG_IP
+        if (url.replace(".", "").toLongOrNull() == null)
+            return InputCheck.WRONG_IP
         if (port.toIntOrNull() == null)
-            return false
-        return true
+            return InputCheck.WRONG_PORT
+        return InputCheck.CORRECT
     }
     
-    private fun setSharedPrefs(ip: String, port: String) {
-        sharedPrefConnection.setUrl(ip)
-        sharedPrefConnection.setPort(port)
+    enum class InputCheck(val code: Int) {
+        CORRECT(0),
+        WRONG_IP(1),
+        WRONG_PORT(2)
     }
 }

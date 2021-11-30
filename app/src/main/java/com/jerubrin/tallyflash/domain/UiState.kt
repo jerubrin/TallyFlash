@@ -9,7 +9,7 @@ sealed class UiState {
     
     class Loading : UiState()
     
-    data class Ready<T>(
+    data class Ready<out T>(
         val data: T
     ) : UiState()
     

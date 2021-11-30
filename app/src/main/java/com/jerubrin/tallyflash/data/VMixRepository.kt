@@ -1,7 +1,8 @@
-package com.jerubrin.tallyflash.retrofit
+package com.jerubrin.tallyflash.data
 
-import com.jerubrin.tallyflash.data.Scene
-import com.jerubrin.tallyflash.data.WorkingScenes
+import com.jerubrin.tallyflash.entity.Scene
+import com.jerubrin.tallyflash.entity.WorkingScenes
+import com.jerubrin.tallyflash.data.retrofit.VMixApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

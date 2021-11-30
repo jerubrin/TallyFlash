@@ -1,6 +1,5 @@
 package com.jerubrin.tallyflash.ui
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,12 +11,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.jerubrin.tallyflash.R
 import com.jerubrin.tallyflash.databinding.FragmentTallyBinding
-import com.jerubrin.tallyflash.flashlight.FlashControlService
+import com.jerubrin.tallyflash.entity.Scene
+import com.jerubrin.tallyflash.entity.SceneState
+import com.jerubrin.tallyflash.entity.SettingsData
 import com.jerubrin.tallyflash.ui.vm.TallyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class TallyFragment : Fragment() {
@@ -29,62 +30,54 @@ class TallyFragment : Fragment() {
     private var _binding : FragmentTallyBinding? = null
     private val binding get() = _binding !!
     
-    @Inject
-    lateinit var serviceIntent: Intent
+    private var settingsData = SettingsData()
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        lifecycleScope.launch {
-            viewModel.currentScene.value = args.scene
-        }
-    
-        serviceIntent.putExtra(FlashControlService.CURRENT_SCENE_NUMBER, args.scene.number)
-        activity?.application?.startService(serviceIntent)
+        viewModel.setNewScene(args.scene)
     }
     
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         _binding = FragmentTallyBinding.inflate(inflater, container, false)
-        
-        lifecycleScope.launch { viewModel.name.collectLatest { binding.textViewName.text = it } }
-        lifecycleScope.launch { viewModel.number.collectLatest { binding.textViewNumber.text = it } }
+    
+        binding.textViewName.text = viewModel.name
+        binding.textViewNumber.text = viewModel.number.toString()
         
         lifecycleScope.launch {
-            viewModel.sceneState.collectLatest {
+            viewModel.sceneState?.collectLatest {
+                settingsData = viewModel.readSharedPrefMainUseCase.execute()
                 when(it) {
-                    TallyViewModel.SceneState.ACTIVE -> {
-                        binding.root.setBackgroundColor(viewModel.sharedPrefMain.getActiveColor())
-                        binding.textState.text = viewModel.sharedPrefMain.getActiveText()
+                    SceneState.ACTIVE -> {
+                        binding.root.setBackgroundColor(settingsData.activeColor)
+                        binding.textState.text = settingsData.activeText
                     }
-                    TallyViewModel.SceneState.PREVIEW -> {
-                        binding.root.setBackgroundColor(viewModel.sharedPrefMain.getPreviewColor())
-                        binding.textState.text = viewModel.sharedPrefMain.getPreviewText()
+                    SceneState.PREVIEW -> {
+                        binding.root.setBackgroundColor(settingsData.previewColor)
+                        binding.textState.text = settingsData.previewText
                     }
-                    TallyViewModel.SceneState.OFF -> {
-                        binding.root.setBackgroundColor(viewModel.sharedPrefMain.getOffColor())
-                        binding.textState.text = viewModel.sharedPrefMain.getOffText()
+                    SceneState.OFF -> {
+                        binding.root.setBackgroundColor(settingsData.offColor)
+                        binding.textState.text = settingsData.offText
                     }
                     else -> {
                         binding.root.setBackgroundColor(
-                            ContextCompat.getColor(requireContext(), R.color.error_background)
+                            ContextCompat.getColor(requireContext(), R.color.error_text)
                         )
-                        binding.textState.text = it.state
+                        binding.textState.text = getString(R.string.error)
                     }
                 }
             }
         }
-    
-        viewModel.isUpdating = true
         
         return binding.root
     }
     
-    override fun onDestroyView() {
-        serviceIntent.putExtra(FlashControlService.CURRENT_SCENE_NUMBER, -1)
-        activity?.application?.startService(serviceIntent)
-        viewModel.isUpdating = false
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.setNewScene(Scene())
     }
+    
 }

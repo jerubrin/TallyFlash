@@ -1,4 +1,4 @@
-package com.jerubrin.tallyflash.retrofit
+package com.jerubrin.tallyflash.data.retrofit
 
 import org.simpleframework.xml.Attribute
 import org.simpleframework.xml.Element
@@ -12,7 +12,7 @@ data class VMix @JvmOverloads constructor(
     
     @field:Element(name = "preview")
     var preview: Int = -1,
-
+    
     @field:Element(name = "active")
     var active: Int = -1
 )
