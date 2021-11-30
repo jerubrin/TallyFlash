@@ -1,7 +1,6 @@
 package com.jerubrin.tallyflash.di
 
 import android.content.Context
-import com.jerubrin.tallyflash.service.FlashTimer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,9 +13,9 @@ import com.jerubrin.tallyflash.domain.usecase.ReadSharedPrefConnectionUseCase
 import com.jerubrin.tallyflash.domain.usecase.ReadSharedPrefMainUseCase
 import com.jerubrin.tallyflash.domain.usecase.WriteSharedPrefConnectionUseCase
 import com.jerubrin.tallyflash.domain.usecase.WriteSharedPrefMainUseCase
-import com.jerubrin.tallyflash.service.FlashController
 import com.jerubrin.tallyflash.service.SceneStateService
 import com.jerubrin.tallyflash.service.SceneStateServiceConnection
+import dagger.hilt.android.scopes.ServiceScoped
 
 
 @Module
@@ -50,26 +49,14 @@ object AppModule {
     
     @Singleton
     @Provides
-    fun providesFlashTimer(): FlashTimer =
-        FlashTimer(200L)
-    
-    @Singleton
-    @Provides
-    fun provideServiceIntent(
-        @ApplicationContext context: Context
-    ) = Intent(context, SceneStateService::class.java)
-    
-    @Singleton
-    @Provides
     fun providesServiceConnection() =
         SceneStateServiceConnection()
     
-    @Singleton
-    @Provides
-    fun providesFlashController(
-        @ApplicationContext context: Context,
-        flashTimer: FlashTimer,
-        readSharedPrefMainUseCase: ReadSharedPrefMainUseCase
-    ) =
-        FlashController(context, flashTimer, readSharedPrefMainUseCase)
+//    @Singleton
+//    @Provides
+//    fun provideServiceIntent(
+//        @ApplicationContext context: Context
+//    ) = Intent(context, SceneStateService::class.java)
+    
+    
 }

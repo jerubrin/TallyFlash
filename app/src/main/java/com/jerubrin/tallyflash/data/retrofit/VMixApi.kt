@@ -5,10 +5,8 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
 
 
-@Singleton
 class VMixApi  {
     
     private var retrofit : Retrofit? =

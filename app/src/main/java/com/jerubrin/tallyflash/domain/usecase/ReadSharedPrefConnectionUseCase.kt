@@ -11,16 +11,17 @@ import com.jerubrin.tallyflash.entity.SharedConnectConst.SHARED_PORT
 
 class ReadSharedPrefConnectionUseCase (
     private val context: Context
-) {
+) : BaseUseCase<ConnectionData, Unit>() {
     
     private val sharedPref: SharedPreferences
         get() = context.getSharedPreferences(SHARED_CONNECT, Context.MODE_PRIVATE)
     
     
-    fun execute(): ConnectionData {
+    override fun execute(params: Unit): ConnectionData {
         val url = sharedPref.getString(SHARED_IP_ADDRESS, DEFAULT_IP_ADDRESS) ?: DEFAULT_IP_ADDRESS
         val port = sharedPref.getString(SHARED_PORT, DEFAULT_PORT) ?: DEFAULT_PORT
-         return ConnectionData(url, port)
+        
+        return ConnectionData(url, port)
     }
-
+    
 }

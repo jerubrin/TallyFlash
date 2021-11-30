@@ -28,12 +28,12 @@ import com.jerubrin.tallyflash.entity.SharedSettingsConst.SHARED_SETTINGS
 
 class ReadSharedPrefMainUseCase (
     private val context: Context
-) {
+) : BaseUseCase<SettingsData, Unit>() {
     
     private val sharedPref: SharedPreferences
         get() = context.getSharedPreferences(SHARED_SETTINGS, Context.MODE_PRIVATE)
     
-    fun execute(): SettingsData {
+    override fun execute(params: Unit): SettingsData {
         val activeColor =
             sharedPref.getInt(SHARED_ACTIVE_COLOR, DEFAULT_ACTIVE_COLOR)
         val previewColor =

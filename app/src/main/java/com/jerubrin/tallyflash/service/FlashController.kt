@@ -57,11 +57,11 @@ class FlashController(
     }
     
     private fun doActiveFlash() {
-        setFlashLight(readSharedPrefMainUseCase.execute().activeFlash)
+        setFlashLight(readSharedPrefMainUseCase.execute(Unit).activeFlash)
     }
     
     private fun doPreviewFlash() {
-        setFlashLight(readSharedPrefMainUseCase.execute().previewFlash)
+        setFlashLight(readSharedPrefMainUseCase.execute(Unit).previewFlash)
     }
     
     private fun doOffFlash() {

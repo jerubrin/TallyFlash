@@ -35,7 +35,7 @@ class ConnectFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     
-        val connectionData = readSharedPrefConnectionUseCase.execute()
+        val connectionData = readSharedPrefConnectionUseCase.execute(Unit)
         url = connectionData.ip
         port = connectionData.port
     }

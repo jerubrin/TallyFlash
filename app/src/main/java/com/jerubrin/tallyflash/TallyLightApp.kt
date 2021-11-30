@@ -1,8 +1,13 @@
 package com.jerubrin.tallyflash
 
 import android.app.Application
+import android.app.Notification
+import android.app.PendingIntent
+import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.jerubrin.tallyflash.service.SceneStateService
 import com.jerubrin.tallyflash.service.SceneStateServiceConnection
 import dagger.hilt.android.HiltAndroidApp
@@ -18,9 +23,12 @@ class TallyLightApp : Application() {
         val serviceIntent = Intent(this, SceneStateService::class.java).also {
             bindService(it, serviceConnection, Context.BIND_AUTO_CREATE)
         }
-        startService(serviceIntent)
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(serviceIntent)
+        } else {
+            startService(serviceIntent)
+        }
     }
-
-//    unbindService(serviceConnection)
-//    serviceConnection.bound = false
+    
 }

@@ -14,9 +14,9 @@ import com.jerubrin.tallyflash.R
 import com.jerubrin.tallyflash.entity.Scene
 import com.jerubrin.tallyflash.databinding.FragmentScenesListBinding
 import com.jerubrin.tallyflash.domain.UiState
-import com.jerubrin.tallyflash.entity.ConnectionData
 import com.jerubrin.tallyflash.ui.adapter.InputsListAdapter
 import com.jerubrin.tallyflash.ui.vm.ScenesListViewModel
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.lang.IllegalStateException
@@ -40,6 +40,14 @@ class ScenesListFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity)
         }
         
+        readSceneList(inputsListAdapter)
+    
+        binding.btnRetry.setOnClickListener { readSceneList(inputsListAdapter) }
+        
+        return binding.root
+    }
+    
+    private fun readSceneList(adapter: InputsListAdapter) {
         lifecycleScope.launch {
             viewModel.loadSceneList().collectLatest {
                 when(it) {
@@ -48,18 +56,12 @@ class ScenesListFragment : Fragment() {
                     is UiState.Error ->
                         showError()
                     is UiState.Ready<*> ->
-                        showSceneList(it, inputsListAdapter)
+                        showSceneList(it, adapter)
                     else ->
                         throw IllegalStateException("Unknown State received!")
                 }
             }
         }
-    
-        binding.btnRetry.setOnClickListener {
-            viewModel.loadSceneList()
-        }
-        
-        return binding.root
     }
     
     private fun showSceneList(it: UiState.Ready<*>, adapter: InputsListAdapter) {
@@ -76,7 +78,7 @@ class ScenesListFragment : Fragment() {
     }
     
     private fun showError() {
-        val connectionData = viewModel.readSharedPrefConnectionUseCase.execute()
+        val connectionData = viewModel.readSharedPrefConnectionUseCase.execute(Unit)
         binding.progressLoading.isVisible = false
         binding.textViewErrorMsg.text =
             getString(
