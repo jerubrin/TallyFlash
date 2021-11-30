@@ -13,7 +13,6 @@ import com.jerubrin.tallyflash.domain.usecase.ReadSharedPrefConnectionUseCase
 import com.jerubrin.tallyflash.domain.usecase.WriteSharedPrefConnectionUseCase
 import com.jerubrin.tallyflash.entity.ConnectionData
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.InternalCoroutinesApi
 import javax.inject.Inject
 
 

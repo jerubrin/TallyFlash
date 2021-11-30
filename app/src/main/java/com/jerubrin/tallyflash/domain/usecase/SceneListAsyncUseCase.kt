@@ -1,11 +1,11 @@
 package com.jerubrin.tallyflash.domain.usecase
 
-
 import com.jerubrin.tallyflash.domain.UiState
 import com.jerubrin.tallyflash.data.VMixRepository
 import com.jerubrin.tallyflash.entity.ConnectionData
 import javax.inject.Inject
 import javax.inject.Singleton
+
 
 @Singleton
 class SceneListAsyncUseCase @Inject constructor(

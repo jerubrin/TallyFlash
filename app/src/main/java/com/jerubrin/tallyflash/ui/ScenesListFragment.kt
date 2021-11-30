@@ -16,10 +16,10 @@ import com.jerubrin.tallyflash.databinding.FragmentScenesListBinding
 import com.jerubrin.tallyflash.domain.UiState
 import com.jerubrin.tallyflash.ui.adapter.InputsListAdapter
 import com.jerubrin.tallyflash.ui.vm.ScenesListViewModel
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.lang.IllegalStateException
+
 
 class ScenesListFragment : Fragment() {
     

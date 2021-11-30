@@ -2,8 +2,6 @@ package com.jerubrin.tallyflash.domain.usecase
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.Color
-import android.media.audiofx.BassBoost
 import com.jerubrin.tallyflash.entity.FlashReactionState
 import com.jerubrin.tallyflash.entity.SettingsData
 import com.jerubrin.tallyflash.entity.SharedSettingsConst.DEFAULT_ACTIVE_COLOR
@@ -25,6 +23,7 @@ import com.jerubrin.tallyflash.entity.SharedSettingsConst.SHARED_PREVIEW_COLOR
 import com.jerubrin.tallyflash.entity.SharedSettingsConst.SHARED_PREVIEW_FLASH
 import com.jerubrin.tallyflash.entity.SharedSettingsConst.SHARED_PREVIEW_TEXT
 import com.jerubrin.tallyflash.entity.SharedSettingsConst.SHARED_SETTINGS
+
 
 class ReadSharedPrefMainUseCase (
     private val context: Context

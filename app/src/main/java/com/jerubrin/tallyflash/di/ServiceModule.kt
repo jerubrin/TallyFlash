@@ -9,14 +9,13 @@ import com.jerubrin.tallyflash.domain.usecase.ReadSharedPrefMainUseCase
 import com.jerubrin.tallyflash.service.FlashController
 import com.jerubrin.tallyflash.service.FlashTimer
 import com.jerubrin.tallyflash.service.SceneStateService.Companion.CHANNEL_DEFAULT_IMPORTANCE
-import com.jerubrin.tallyflash.service.SceneStateServiceConnection
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ServiceComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
-import javax.inject.Singleton
+
 
 @Module
 @InstallIn(ServiceComponent::class)

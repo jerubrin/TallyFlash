@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Singleton
 
+
 @Singleton
 class FlashController(
     private val context: Context,

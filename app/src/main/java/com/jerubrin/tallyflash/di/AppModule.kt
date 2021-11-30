@@ -7,15 +7,12 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
-import android.content.Intent
 import com.jerubrin.tallyflash.data.retrofit.VMixApi
 import com.jerubrin.tallyflash.domain.usecase.ReadSharedPrefConnectionUseCase
 import com.jerubrin.tallyflash.domain.usecase.ReadSharedPrefMainUseCase
 import com.jerubrin.tallyflash.domain.usecase.WriteSharedPrefConnectionUseCase
 import com.jerubrin.tallyflash.domain.usecase.WriteSharedPrefMainUseCase
-import com.jerubrin.tallyflash.service.SceneStateService
 import com.jerubrin.tallyflash.service.SceneStateServiceConnection
-import dagger.hilt.android.scopes.ServiceScoped
 
 
 @Module
@@ -51,12 +48,5 @@ object AppModule {
     @Provides
     fun providesServiceConnection() =
         SceneStateServiceConnection()
-    
-//    @Singleton
-//    @Provides
-//    fun provideServiceIntent(
-//        @ApplicationContext context: Context
-//    ) = Intent(context, SceneStateService::class.java)
-    
     
 }

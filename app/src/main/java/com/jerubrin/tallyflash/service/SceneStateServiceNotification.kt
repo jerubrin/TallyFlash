@@ -10,12 +10,12 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.jerubrin.tallyflash.MainActivity
 import com.jerubrin.tallyflash.R
 import com.jerubrin.tallyflash.domain.usecase.ReadSharedPrefMainUseCase
 import com.jerubrin.tallyflash.entity.Scene
 import com.jerubrin.tallyflash.entity.SceneState
 import javax.inject.Inject
+
 
 class SceneStateServiceNotification @Inject constructor(
     private val readSharedPrefMainUseCase: ReadSharedPrefMainUseCase,

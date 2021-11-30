@@ -14,6 +14,7 @@ import com.jerubrin.tallyflash.entity.SharedSettingsConst.SHARED_PREVIEW_FLASH
 import com.jerubrin.tallyflash.entity.SharedSettingsConst.SHARED_PREVIEW_TEXT
 import com.jerubrin.tallyflash.entity.SharedSettingsConst.SHARED_SETTINGS
 
+
 class WriteSharedPrefMainUseCase (
     private val context: Context
 ) : BaseUseCase<Boolean, SettingsData>() {

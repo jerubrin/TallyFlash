@@ -9,6 +9,7 @@ import com.jerubrin.tallyflash.entity.SharedConnectConst.SHARED_CONNECT
 import com.jerubrin.tallyflash.entity.SharedConnectConst.SHARED_IP_ADDRESS
 import com.jerubrin.tallyflash.entity.SharedConnectConst.SHARED_PORT
 
+
 class ReadSharedPrefConnectionUseCase (
     private val context: Context
 ) : BaseUseCase<ConnectionData, Unit>() {

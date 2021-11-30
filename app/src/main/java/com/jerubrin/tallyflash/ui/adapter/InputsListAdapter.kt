@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jerubrin.tallyflash.entity.Scene
 import com.jerubrin.tallyflash.databinding.InputHolderBinding
 
+
 class InputsListAdapter(
     private val callback: (Scene) -> Unit
 ) : ListAdapter<Scene, InputsListAdapter.SceneHolder>(COMPARATOR) {

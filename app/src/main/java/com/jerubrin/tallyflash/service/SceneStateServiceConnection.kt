@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.ServiceConnection
 import android.os.IBinder
 
+
 class SceneStateServiceConnection : ServiceConnection {
     
     private var _service: SceneStateService? = null
