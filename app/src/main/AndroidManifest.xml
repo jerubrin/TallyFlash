@@ -24,7 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".service.SceneStateService"
+        <service android:name="com.jerubrin.tallyflash.presentation.service.SceneStateService"
             android:permission="android.permission.FOREGROUND_SERVICE"
             android:foregroundServiceType="camera"/>
     </application>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_title_active">Active</string>
+    <string name="main_title_preview">Preview</string>
+    <string name="main_title_off">Off</string>
+
+    //ACTIVE
+    <string name="active_text_key">shared_text_active</string>
+    <string name="active_text_summary">Enter what you will see if your scene is active</string>
+    <string name="active_text_title">Active scene label</string>
+    <string name="active_default_text">Active</string>
+
+    <string name="active_color_key">shared_color_active</string>
+    <string name="active_color_title">Active scene color</string>
+    <string name="active_default_color">#FF0000</string>
+
+    <string name="active_flash_key">shared_flash_active</string>
+    <string name="active_flash_summary">
+        Select what flash light will do if your scene is active
+    </string>
+    <string name="active_flash_title">Active scene flash reaction</string>>
+
+    //PREVIEW
+    <string name="preview_text_key">shared_text_preview</string>
+    <string name="preview_text_summary">Enter what you will see if your scene is on preview</string>
+    <string name="preview_text_title">Preview scene label</string>
+    <string name="preview_default_text">Preview</string>
+
+    <string name="preview_color_key">shared_color_preview</string>
+    <string name="preview_color_title">Preview scene color</string>
+    <string name="preview_default_color">#FF6600</string>
+
+    <string name="preview_flash_key">shared_flash_preview</string>
+    <string name="preview_flash_summary">
+        Select what flash light will do if your scene is on preview
+    </string>
+    <string name="preview_flash_title">Preview scene flash reaction</string>
+
+    <string name="preview_blink_key">shared_blink_after</string>
+    <string name="preview_blink_summary">
+        Do you need blinking on preview after active scene?
+    </string>
+    <string name="preview_blink_title">Blink after Active</string>
+    <string name="preview_default_blink">false</string>
+
+    //OFF
+    <string name="off_text_key">shared_text_off</string>
+    <string name="off_text_summary">Enter what you will see if your scene is off</string>
+    <string name="off_text_title">Off scene label</string>
+    <string name="off_default_text">Off</string>
+
+    <string name="off_color_key">shared_color_off</string>
+    <string name="off_color_title">Off scene color</string>
+    <string name="off_default_color">#000000</string>
+
+    //Array
+    <string-array name="flash_reaction_state">
+        <item>OFF</item>
+        <item>ON</item>
+        <item>BLINK</item>
+    </string-array>
+    <string-array name="flash_reaction_state_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string name="default_value_active">1</string>
+    <string name="default_value_preview">2</string>
+
+</resources>

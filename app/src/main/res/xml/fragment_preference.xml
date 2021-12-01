@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:key="@string/shared_main">
+
+        <PreferenceCategory
+            android:title="@string/main_title_active"
+                />
+        <EditTextPreference
+            android:key="@string/active_text_key"
+            android:summary="@string/active_text_summary"
+            android:title="@string/active_text_title"
+            android:defaultValue="@string/active_default_text"/>
+        <com.rarepebble.colorpicker.ColorPreference
+            android:key="@string/active_color_key"
+            android:title="@string/active_color_title"
+            android:defaultValue="@string/active_default_color"
+            app:colorpicker_showAlpha="false"/>
+        <ListPreference
+            android:key="@string/active_flash_key"
+            android:summary="@string/active_flash_summary"
+            android:title="@string/active_flash_title"
+            android:entries="@array/flash_reaction_state"
+            android:entryValues="@array/flash_reaction_state_values"
+            android:defaultValue="@string/default_value_active"
+            app:allowDividerBelow="true"/>
+
+        <PreferenceCategory
+            android:title="@string/main_title_preview"
+            app:allowDividerAbove="true" />
+        <EditTextPreference
+            android:key="@string/preview_text_key"
+            android:summary="@string/preview_text_summary"
+            android:title="@string/preview_text_title"
+            android:defaultValue="@string/preview_default_text"/>
+        <com.rarepebble.colorpicker.ColorPreference
+            android:key="@string/preview_color_key"
+            android:title="@string/preview_color_title"
+            android:defaultValue="@string/preview_default_color"
+            app:colorpicker_showAlpha="false"/>
+        <ListPreference
+            android:key="@string/preview_flash_key"
+            android:summary="@string/preview_flash_summary"
+            android:title="@string/preview_flash_title"
+            android:entries="@array/flash_reaction_state"
+            android:entryValues="@array/flash_reaction_state_values"
+            android:defaultValue="@string/default_value_preview"/>
+        <SwitchPreferenceCompat
+            android:key="@string/preview_blink_key"
+            android:summary="@string/preview_blink_summary"
+            android:title="@string/preview_blink_title"
+            android:defaultValue="@string/preview_default_blink"
+            app:allowDividerBelow="true" />
+
+        <PreferenceCategory
+            android:title="@string/main_title_off"
+            app:allowDividerAbove="true"/>
+        <EditTextPreference
+            android:key="@string/off_text_key"
+            android:summary="@string/off_text_summary"
+            android:title="@string/off_text_title"
+            android:defaultValue="@string/off_default_text" />
+        <com.rarepebble.colorpicker.ColorPreference
+            android:key="@string/off_color_key"
+            android:title="@string/off_color_title"
+            android:defaultValue="@string/off_default_color"
+            app:colorpicker_showAlpha="false"/>
+
+</androidx.preference.PreferenceScreen>

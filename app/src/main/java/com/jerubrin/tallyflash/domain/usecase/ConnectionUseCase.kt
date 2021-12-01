@@ -7,8 +7,9 @@ import javax.inject.Inject
 
 class ConnectionUseCase @Inject constructor(
     private val vMixApi: VMixApi
-) {
-    fun execute(params: ConnectionData) {
+) : BaseUseCase<Unit, ConnectionData> {
+    
+    override fun execute(params: ConnectionData) {
         vMixApi.renewRetrofit(params)
     }
 }

@@ -1,4 +1,4 @@
-package com.jerubrin.tallyflash.ui.adapter
+package com.jerubrin.tallyflash.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

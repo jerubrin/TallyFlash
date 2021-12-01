@@ -8,11 +8,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import com.jerubrin.tallyflash.data.retrofit.VMixApi
-import com.jerubrin.tallyflash.domain.usecase.ReadSharedPrefConnectionUseCase
-import com.jerubrin.tallyflash.domain.usecase.ReadSharedPrefMainUseCase
-import com.jerubrin.tallyflash.domain.usecase.WriteSharedPrefConnectionUseCase
-import com.jerubrin.tallyflash.domain.usecase.WriteSharedPrefMainUseCase
-import com.jerubrin.tallyflash.service.SceneStateServiceConnection
+import com.jerubrin.tallyflash.domain.usecase.prefs.ReadSharedPrefConnectionUseCase
+import com.jerubrin.tallyflash.domain.usecase.prefs.ReadSharedPrefMainUseCase
+import com.jerubrin.tallyflash.domain.usecase.prefs.WriteSharedPrefConnectionUseCase
+import com.jerubrin.tallyflash.presentation.service.SceneStateServiceConnection
 
 
 @Module
@@ -33,11 +32,6 @@ object AppModule {
     fun providesReadSharedPrefConnectionUseCase(
         @ApplicationContext context: Context
     ) = ReadSharedPrefConnectionUseCase(context)
-    
-    @Provides
-    fun providesWriteSharedPrefMainUseCase(
-        @ApplicationContext context: Context
-    ) = WriteSharedPrefMainUseCase(context)
     
     @Provides
     fun providesWriteSharedPrefConnectionUseCase(

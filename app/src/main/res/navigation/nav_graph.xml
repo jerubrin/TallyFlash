@@ -7,16 +7,19 @@
 
     <fragment
         android:id="@+id/connectFragment"
-        android:name="com.jerubrin.tallyflash.ui.ConnectFragment"
+        android:name="com.jerubrin.tallyflash.presentation.ConnectFragment"
         android:label="fragment_connect"
         tools:layout="@layout/fragment_connect" >
         <action
             android:id="@+id/action_connectFragment_to_scenesListFragment"
             app:destination="@id/scenesListFragment" />
+        <action
+            android:id="@+id/action_connectFragment_to_mainPreferenceFragment"
+            app:destination="@id/mainPreferenceFragment" />
     </fragment>
     <fragment
         android:id="@+id/scenesListFragment"
-        android:name="com.jerubrin.tallyflash.ui.ScenesListFragment"
+        android:name="com.jerubrin.tallyflash.presentation.ScenesListFragment"
         android:label="fragment_scenes_list"
         tools:layout="@layout/fragment_scenes_list" >
         <action
@@ -25,11 +28,16 @@
     </fragment>
     <fragment
         android:id="@+id/tallyFragment"
-        android:name="com.jerubrin.tallyflash.ui.TallyFragment"
+        android:name="com.jerubrin.tallyflash.presentation.TallyFragment"
         android:label="fragment_tally"
         tools:layout="@layout/fragment_tally" >
         <argument
             android:name="scene"
             app:argType="com.jerubrin.tallyflash.entity.Scene" />
     </fragment>
+    <fragment
+        android:id="@+id/mainPreferenceFragment"
+        android:name="com.jerubrin.tallyflash.presentation.MainPreferenceFragment"
+        android:label="MainPreferenceFragment"
+        tools:layout="@layout/picker"/>
 </navigation>

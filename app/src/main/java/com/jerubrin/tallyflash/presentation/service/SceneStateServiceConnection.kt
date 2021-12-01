@@ -1,4 +1,4 @@
-package com.jerubrin.tallyflash.service
+package com.jerubrin.tallyflash.presentation.service
 
 import android.content.ComponentName
 import android.content.ServiceConnection

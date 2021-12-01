@@ -10,7 +10,7 @@ import javax.inject.Singleton
 @Singleton
 class SceneListAsyncUseCase @Inject constructor(
     private val vMixRepository: VMixRepository
-) : BaseAsyncUseCase<UiState, ConnectionData>(UiState.Loading()) {
+) : BaseAsyncUseCase<UiState, ConnectionData>() {
     
     override suspend fun run(params: ConnectionData): UiState =
         try {
@@ -18,5 +18,8 @@ class SceneListAsyncUseCase @Inject constructor(
         } catch (e: Exception) {
             UiState.Error(e.localizedMessage ?: "")
         }
+    
+    override suspend fun start(params: ConnectionData): UiState =
+        UiState.Loading()
     
 }

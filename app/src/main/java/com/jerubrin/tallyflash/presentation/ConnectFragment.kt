@@ -1,4 +1,4 @@
-package com.jerubrin.tallyflash.ui
+package com.jerubrin.tallyflash.presentation
 
 
 import android.os.Bundle
@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.jerubrin.tallyflash.R
 import com.jerubrin.tallyflash.databinding.FragmentConnectBinding
-import com.jerubrin.tallyflash.domain.usecase.ReadSharedPrefConnectionUseCase
-import com.jerubrin.tallyflash.domain.usecase.WriteSharedPrefConnectionUseCase
+import com.jerubrin.tallyflash.domain.usecase.prefs.ReadSharedPrefConnectionUseCase
+import com.jerubrin.tallyflash.domain.usecase.prefs.WriteSharedPrefConnectionUseCase
 import com.jerubrin.tallyflash.entity.ConnectionData
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -66,6 +66,12 @@ class ConnectFragment : Fragment() {
                 InputCheck.WRONG_PORT  ->
                     binding.textViewErrorMessage.text = getString(R.string.wrong_port)
             }
+        }
+        
+        binding.btnSettings.setOnClickListener {
+            val action =
+                ConnectFragmentDirections.actionConnectFragmentToMainPreferenceFragment()
+            findNavController().navigate(action)
         }
         
         return binding.root

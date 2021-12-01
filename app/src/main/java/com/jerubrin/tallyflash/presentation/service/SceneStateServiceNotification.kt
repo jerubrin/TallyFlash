@@ -1,4 +1,4 @@
-package com.jerubrin.tallyflash.service
+package com.jerubrin.tallyflash.presentation.service
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -11,7 +11,7 @@ import android.graphics.Color
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.jerubrin.tallyflash.R
-import com.jerubrin.tallyflash.domain.usecase.ReadSharedPrefMainUseCase
+import com.jerubrin.tallyflash.domain.usecase.prefs.ReadSharedPrefMainUseCase
 import com.jerubrin.tallyflash.entity.Scene
 import com.jerubrin.tallyflash.entity.SceneState
 import javax.inject.Inject
@@ -33,7 +33,9 @@ class SceneStateServiceNotification @Inject constructor(
         )
             .setContentIntent(pendingIntent)
         
-        service.startForeground(SceneStateService.ONGOING_NOTIFICATION_ID, notificationBuilder.build())
+        service.startForeground(
+            SceneStateService.ONGOING_NOTIFICATION_ID, notificationBuilder.build()
+        )
     }
     
     @RequiresApi(Build.VERSION_CODES.O)

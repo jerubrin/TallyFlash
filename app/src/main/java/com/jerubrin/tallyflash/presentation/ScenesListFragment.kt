@@ -1,4 +1,4 @@
-package com.jerubrin.tallyflash.ui
+package com.jerubrin.tallyflash.presentation
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,8 +14,8 @@ import com.jerubrin.tallyflash.R
 import com.jerubrin.tallyflash.entity.Scene
 import com.jerubrin.tallyflash.databinding.FragmentScenesListBinding
 import com.jerubrin.tallyflash.domain.UiState
-import com.jerubrin.tallyflash.ui.adapter.InputsListAdapter
-import com.jerubrin.tallyflash.ui.vm.ScenesListViewModel
+import com.jerubrin.tallyflash.presentation.adapter.InputsListAdapter
+import com.jerubrin.tallyflash.presentation.vm.ScenesListViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.lang.IllegalStateException

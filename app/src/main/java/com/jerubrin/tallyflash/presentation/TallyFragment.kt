@@ -1,4 +1,4 @@
-package com.jerubrin.tallyflash.ui
+package com.jerubrin.tallyflash.presentation
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,8 +13,7 @@ import com.jerubrin.tallyflash.R
 import com.jerubrin.tallyflash.databinding.FragmentTallyBinding
 import com.jerubrin.tallyflash.entity.Scene
 import com.jerubrin.tallyflash.entity.SceneState
-import com.jerubrin.tallyflash.entity.SettingsData
-import com.jerubrin.tallyflash.ui.vm.TallyViewModel
+import com.jerubrin.tallyflash.presentation.vm.TallyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -29,8 +28,6 @@ class TallyFragment : Fragment() {
     
     private var _binding : FragmentTallyBinding? = null
     private val binding get() = _binding !!
-    
-    private var settingsData = SettingsData()
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +45,7 @@ class TallyFragment : Fragment() {
         
         lifecycleScope.launch {
             viewModel.sceneState?.collectLatest {
-                settingsData = viewModel.readSharedPrefMainUseCase.execute(Unit)
+                val settingsData = viewModel.readSharedPrefMainUseCase.execute(Unit)
                 when(it) {
                     SceneState.ACTIVE -> {
                         binding.root.setBackgroundColor(settingsData.activeColor)

@@ -1,10 +1,10 @@
-package com.jerubrin.tallyflash.ui.vm
+package com.jerubrin.tallyflash.presentation.vm
 
 import androidx.lifecycle.ViewModel
 import com.jerubrin.tallyflash.entity.Scene
-import com.jerubrin.tallyflash.domain.usecase.ReadSharedPrefMainUseCase
+import com.jerubrin.tallyflash.domain.usecase.prefs.ReadSharedPrefMainUseCase
 import com.jerubrin.tallyflash.entity.SceneState
-import com.jerubrin.tallyflash.service.SceneStateServiceConnection
+import com.jerubrin.tallyflash.presentation.service.SceneStateServiceConnection
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject

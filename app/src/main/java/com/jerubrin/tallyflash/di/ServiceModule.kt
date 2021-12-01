@@ -5,10 +5,10 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.jerubrin.tallyflash.R
-import com.jerubrin.tallyflash.domain.usecase.ReadSharedPrefMainUseCase
-import com.jerubrin.tallyflash.service.FlashController
-import com.jerubrin.tallyflash.service.FlashTimer
-import com.jerubrin.tallyflash.service.SceneStateService.Companion.CHANNEL_DEFAULT_IMPORTANCE
+import com.jerubrin.tallyflash.domain.usecase.prefs.ReadSharedPrefMainUseCase
+import com.jerubrin.tallyflash.presentation.service.FlashController
+import com.jerubrin.tallyflash.presentation.service.FlashTimer
+import com.jerubrin.tallyflash.presentation.service.SceneStateService.Companion.CHANNEL_DEFAULT_IMPORTANCE
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,7 +19,7 @@ import dagger.hilt.android.scopes.ServiceScoped
 
 @Module
 @InstallIn(ServiceComponent::class)
-class ServiceModule {
+object ServiceModule {
     
     @RequiresApi(Build.VERSION_CODES.O)
     @ServiceScoped

@@ -1,11 +1,12 @@
-package com.jerubrin.tallyflash.service
+package com.jerubrin.tallyflash.presentation.service
 
 import android.app.Service
 import android.content.Context
 import android.content.pm.PackageManager
+import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
 import android.os.Build
-import com.jerubrin.tallyflash.domain.usecase.ReadSharedPrefMainUseCase
+import com.jerubrin.tallyflash.domain.usecase.prefs.ReadSharedPrefMainUseCase
 import com.jerubrin.tallyflash.entity.FlashReactionState
 import com.jerubrin.tallyflash.entity.SceneState
 import kotlinx.coroutines.CoroutineScope
@@ -37,9 +38,18 @@ class FlashController(
         }
     
     fun changeFlashLightState(sceneState: SceneState) {
+        val isFlashAvailable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            cameraManager
+                ?.getCameraCharacteristics("0")
+                ?.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) ?: false
+        } else {
+            false
+        }
+        //            .get(CameraCharacteristics.FLASH_INFO_AVAILABLE)
         if (
             context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) &&
-            context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
+            context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH) &&
+            isFlashAvailable
         ) {
             if (sceneState != wasSceneState) {
                 when (sceneState) {
@@ -52,6 +62,7 @@ class FlashController(
                     else ->
                         Unit
                 }
+                
                 wasSceneState = sceneState
             }
         }
@@ -77,7 +88,10 @@ class FlashController(
                 setFlashLight(true)
             }
             FlashReactionState.BLINK -> {
-                if (wasSceneState != SceneState.ACTIVE) {
+                if (
+                    wasSceneState != SceneState.ACTIVE ||
+                    readSharedPrefMainUseCase.execute(Unit).blinkAfterActive
+                ) {
                     onBlink()
                 } else {
                     doOffFlash()
@@ -106,6 +120,5 @@ class FlashController(
             }
         }
     }
-    
     
 }
