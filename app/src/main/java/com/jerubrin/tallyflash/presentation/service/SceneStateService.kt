@@ -7,8 +7,8 @@ import android.os.Build
 import android.os.IBinder
 import com.jerubrin.tallyflash.MainActivity
 import com.jerubrin.tallyflash.R
-import com.jerubrin.tallyflash.domain.UiState
-import com.jerubrin.tallyflash.domain.usecase.WorkingScenesAsyncUseCase
+import com.jerubrin.tallyflash.domain.State
+import com.jerubrin.tallyflash.domain.usecase.BaseUseCase
 import com.jerubrin.tallyflash.entity.Scene
 import com.jerubrin.tallyflash.entity.SceneState
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,10 +24,10 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class SceneStateService : Service() {
+class SceneStateService : Service(), SceneStateServiceControl {
     
     @Inject
-    lateinit var workingScenesUseCase: WorkingScenesAsyncUseCase
+    lateinit var workingScenesUseCase: BaseUseCase<State, Scene>
     
     @Inject
     lateinit var flashController: FlashController
@@ -36,9 +36,15 @@ class SceneStateService : Service() {
     lateinit var screenStateSerNotification: SceneStateServiceNotification
     
     private var _sceneState: MutableStateFlow<SceneState> = MutableStateFlow(SceneState.OFF)
-    val sceneState: StateFlow<SceneState> = _sceneState
+    override fun getSceneState(): StateFlow<SceneState> =
+        _sceneState
     
-    var currentScene: Scene = Scene()
+    private var currentScene: Scene = Scene()
+    override fun setCurrentScene(scene: Scene) {
+        currentScene = scene
+    }
+    override fun getCurrentScene(): Scene =
+        currentScene
     
     private var countErrorStates = 0
     
@@ -97,11 +103,11 @@ class SceneStateService : Service() {
     
     private suspend fun updateUiState() {
         workingScenesUseCase.execute(currentScene).collectLatest {
-            if (it is UiState.Ready<*>) {
+            if (it is State.Ready<*>) {
                 _sceneState.value = it.data as SceneState
             }
             
-            if (it is UiState.Error) {
+            if (it is State.Error) {
                 if(countErrorStates > MAX_ERROR_COUNT) {
                     _sceneState.value = SceneState.ERROR
                 } else {
@@ -146,4 +152,14 @@ class SceneStateService : Service() {
         const val ONGOING_NOTIFICATION_ID = 1
     }
     
+}
+
+interface SceneStateServiceControl {
+    
+    fun setCurrentScene(scene: Scene)
+    
+    fun getCurrentScene(): Scene
+    
+    fun getSceneState(): StateFlow<SceneState>
+
 }

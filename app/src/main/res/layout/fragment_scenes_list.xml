@@ -52,7 +52,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
-        android:background="@color/error_background"
+        android:background="@color/error_message_background"
         android:padding="@dimen/main_margin">
         <TextView
             android:id="@+id/text_view_error_msg"

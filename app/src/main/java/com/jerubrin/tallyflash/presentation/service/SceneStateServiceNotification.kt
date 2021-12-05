@@ -11,14 +11,15 @@ import android.graphics.Color
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.jerubrin.tallyflash.R
-import com.jerubrin.tallyflash.domain.usecase.prefs.ReadSharedPrefMainUseCase
+import com.jerubrin.tallyflash.domain.usecase.prefs.BasePrefsUseCase
 import com.jerubrin.tallyflash.entity.Scene
 import com.jerubrin.tallyflash.entity.SceneState
+import com.jerubrin.tallyflash.entity.SettingsData
 import javax.inject.Inject
 
 
 class SceneStateServiceNotification @Inject constructor(
-    private val readSharedPrefMainUseCase: ReadSharedPrefMainUseCase,
+    private val readSharedPrefMainUseCase: BasePrefsUseCase<SettingsData, Unit>,
     private var notificationBuilder: Notification.Builder
 ) {
     @RequiresApi(Build.VERSION_CODES.O)

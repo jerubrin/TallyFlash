@@ -45,7 +45,7 @@ class TallyFragment : Fragment() {
         
         lifecycleScope.launch {
             viewModel.sceneState?.collectLatest {
-                val settingsData = viewModel.readSharedPrefMainUseCase.execute(Unit)
+                val settingsData = viewModel.getSettingsData
                 when(it) {
                     SceneState.ACTIVE -> {
                         binding.root.setBackgroundColor(settingsData.activeColor)
@@ -70,11 +70,6 @@ class TallyFragment : Fragment() {
         }
         
         return binding.root
-    }
-    
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.setNewScene(Scene())
     }
     
 }

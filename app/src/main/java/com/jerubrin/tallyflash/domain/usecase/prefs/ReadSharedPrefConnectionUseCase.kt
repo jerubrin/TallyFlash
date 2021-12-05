@@ -1,29 +1,31 @@
 package com.jerubrin.tallyflash.domain.usecase.prefs
 
-import android.content.Context
 import android.content.SharedPreferences
-import com.jerubrin.tallyflash.domain.usecase.BaseUseCase
+import android.content.res.Resources
+import com.jerubrin.tallyflash.R
 import com.jerubrin.tallyflash.entity.ConnectionData
-import com.jerubrin.tallyflash.entity.SharedConnectConst.DEFAULT_IP_ADDRESS
-import com.jerubrin.tallyflash.entity.SharedConnectConst.DEFAULT_PORT
-import com.jerubrin.tallyflash.entity.SharedConnectConst.SHARED_CONNECT
-import com.jerubrin.tallyflash.entity.SharedConnectConst.SHARED_IP_ADDRESS
-import com.jerubrin.tallyflash.entity.SharedConnectConst.SHARED_PORT
+import javax.inject.Inject
 
 
-class ReadSharedPrefConnectionUseCase (
-    private val context: Context
-) : BaseUseCase<ConnectionData, Unit> {
-    
+class ReadSharedPrefConnectionUseCase @Inject constructor (
+    private val resources: Resources,
     private val sharedPref: SharedPreferences
-        get() = context.getSharedPreferences(SHARED_CONNECT, Context.MODE_PRIVATE)
-    
+) : BasePrefsUseCase<ConnectionData, Unit>() {
     
     override fun execute(params: Unit): ConnectionData {
-        val url = sharedPref.getString(SHARED_IP_ADDRESS, DEFAULT_IP_ADDRESS) ?: DEFAULT_IP_ADDRESS
-        val port = sharedPref.getString(SHARED_PORT, DEFAULT_PORT) ?: DEFAULT_PORT
-        
-        return ConnectionData(url, port)
+        with(resources) {
+            val url = sharedPref.getString(
+                getString(R.string.ip_address_key),
+                getString(R.string.default_ip_address)
+            ) ?: getString(R.string.default_ip_address)
+    
+            val port = sharedPref.getString(
+                getString(R.string.port_key),
+                getString(R.string.default_port)
+            ) ?: getString(R.string.default_port)
+    
+            return ConnectionData(url, port)
+        }
     }
     
 }

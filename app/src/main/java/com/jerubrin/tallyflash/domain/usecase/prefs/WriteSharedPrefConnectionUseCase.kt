@@ -1,26 +1,23 @@
 package com.jerubrin.tallyflash.domain.usecase.prefs
 
-import android.content.Context
 import android.content.SharedPreferences
-import com.jerubrin.tallyflash.domain.usecase.BaseUseCase
+import android.content.res.Resources
+import com.jerubrin.tallyflash.R
 import com.jerubrin.tallyflash.entity.ConnectionData
-import com.jerubrin.tallyflash.entity.SharedConnectConst.SHARED_CONNECT
-import com.jerubrin.tallyflash.entity.SharedConnectConst.SHARED_IP_ADDRESS
-import com.jerubrin.tallyflash.entity.SharedConnectConst.SHARED_PORT
 
 
 class WriteSharedPrefConnectionUseCase (
-    private val context: Context
-) : BaseUseCase<Boolean, ConnectionData> {
-    
+    private val resources: Resources,
     private val sharedPref: SharedPreferences
-        get() = context.getSharedPreferences(SHARED_CONNECT, Context.MODE_PRIVATE)
+) : BasePrefsUseCase<Boolean, ConnectionData>() {
     
     override fun execute(params: ConnectionData): Boolean {
-        sharedPref.edit()?.apply{
-            putString(SHARED_IP_ADDRESS, params.ip)
-            putString(SHARED_PORT, params.port)
-            return commit()
+        with(resources) {
+            sharedPref.edit()?.apply {
+                putString(getString(R.string.ip_address_key), params.ip)
+                putString(getString(R.string.port_key), params.port)
+                return commit()
+            }
         }
         return false
     }

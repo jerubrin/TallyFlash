@@ -6,9 +6,10 @@ import android.content.pm.PackageManager
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
 import android.os.Build
-import com.jerubrin.tallyflash.domain.usecase.prefs.ReadSharedPrefMainUseCase
+import com.jerubrin.tallyflash.domain.usecase.prefs.BasePrefsUseCase
 import com.jerubrin.tallyflash.entity.FlashReactionState
 import com.jerubrin.tallyflash.entity.SceneState
+import com.jerubrin.tallyflash.entity.SettingsData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
@@ -20,7 +21,7 @@ import javax.inject.Singleton
 class FlashController(
     private val context: Context,
     private val flashTimer: FlashTimer,
-    private val readSharedPrefMainUseCase: ReadSharedPrefMainUseCase
+    private val readSharedPrefMainUseCase: BasePrefsUseCase<SettingsData, Unit>
 ) {
     
     private var isBlinking = false

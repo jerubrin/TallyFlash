@@ -5,17 +5,22 @@ import android.content.ServiceConnection
 import android.os.IBinder
 
 
-class SceneStateServiceConnection : ServiceConnection {
+object SceneStateServiceConnection : ServiceConnection {
     
-    private var _service: SceneStateService? = null
-    val service get() = _service
+    private var mService: SceneStateService? = null
+    val service get() = mService as SceneStateServiceControl
+    
+    private var mBind: Boolean = false
+    val bind get() = mBind
     
     override fun onServiceConnected(className: ComponentName, service: IBinder) {
         val binder = service as SceneStateService.LocalBinder
-        _service = binder.getService()
+        mService = binder.getService()
+        mBind = true
     }
     
     override fun onServiceDisconnected(p0: ComponentName?) {
-        _service = null
+        mService = null
+        mBind = false
     }
 }

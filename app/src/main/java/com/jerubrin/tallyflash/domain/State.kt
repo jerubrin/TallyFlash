@@ -1,17 +1,17 @@
 package com.jerubrin.tallyflash.domain
 
 
-sealed class UiState {
+sealed class State {
     
     data class Error(
         val errorMessage: String
-    ) : UiState()
+    ) : State()
     
-    class Loading : UiState()
+    class Loading : State()
     
     data class Ready<out T>(
         val data: T
-    ) : UiState()
+    ) : State()
     
-    class Idle : UiState()
+    class Idle : State()
 }

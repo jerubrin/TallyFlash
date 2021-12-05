@@ -1,22 +1,26 @@
 package com.jerubrin.tallyflash.domain.usecase.prefs
 
-import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Resources
 import androidx.core.graphics.toColorInt
-import androidx.preference.PreferenceManager
 import com.jerubrin.tallyflash.R
+import com.jerubrin.tallyflash.domain.State
 import com.jerubrin.tallyflash.domain.usecase.BaseUseCase
 import com.jerubrin.tallyflash.entity.FlashReactionState
 import com.jerubrin.tallyflash.entity.SettingsData
+import javax.inject.Inject
 
 
-class ReadSharedPrefMainUseCase (
-    private val context: Context
-) : BaseUseCase<SettingsData, Unit> {
+class ReadSharedPrefMainUseCase @Inject constructor(
+    private val resources: Resources,
+    private val sharedPref: SharedPreferences
+) : BasePrefsUseCase<SettingsData, Unit>() {
     
-    override fun execute(params: Unit): SettingsData {
-        val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
-        with(context) {
+    override fun execute(params: Unit): SettingsData =
+        getSettingsData()
+    
+    private fun getSettingsData(): SettingsData {
+        with(resources) {
             val activeColor =
                 sharedPref.getInt(
                     getString(R.string.active_color_key),

@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.jerubrin.tallyflash.R
 import com.jerubrin.tallyflash.databinding.FragmentConnectBinding
+import com.jerubrin.tallyflash.domain.usecase.BaseUseCase
+import com.jerubrin.tallyflash.domain.usecase.prefs.BasePrefsUseCase
 import com.jerubrin.tallyflash.domain.usecase.prefs.ReadSharedPrefConnectionUseCase
 import com.jerubrin.tallyflash.domain.usecase.prefs.WriteSharedPrefConnectionUseCase
 import com.jerubrin.tallyflash.entity.ConnectionData
@@ -26,10 +28,10 @@ class ConnectFragment : Fragment() {
     private val binding get() = _binding!!
     
     @Inject
-    lateinit var readSharedPrefConnectionUseCase: ReadSharedPrefConnectionUseCase
+    lateinit var readSharedPrefConnectionUseCase: BasePrefsUseCase<ConnectionData, Unit>
     
     @Inject
-    lateinit var writeSharedPrefConnectionUseCase: WriteSharedPrefConnectionUseCase
+    lateinit var writeSharedPrefConnectionUseCase: BasePrefsUseCase<Boolean, ConnectionData>
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

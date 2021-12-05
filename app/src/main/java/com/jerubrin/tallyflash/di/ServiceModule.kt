@@ -5,7 +5,10 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.jerubrin.tallyflash.R
+import com.jerubrin.tallyflash.domain.usecase.BaseUseCase
+import com.jerubrin.tallyflash.domain.usecase.prefs.BasePrefsUseCase
 import com.jerubrin.tallyflash.domain.usecase.prefs.ReadSharedPrefMainUseCase
+import com.jerubrin.tallyflash.entity.SettingsData
 import com.jerubrin.tallyflash.presentation.service.FlashController
 import com.jerubrin.tallyflash.presentation.service.FlashTimer
 import com.jerubrin.tallyflash.presentation.service.SceneStateService.Companion.CHANNEL_DEFAULT_IMPORTANCE
@@ -35,7 +38,7 @@ object ServiceModule {
     fun providesFlashController(
         @ApplicationContext context: Context,
         flashTimer: FlashTimer,
-        readSharedPrefMainUseCase: ReadSharedPrefMainUseCase
+        readSharedPrefMainUseCase: BasePrefsUseCase<SettingsData, Unit>
     ) =
         FlashController(context, flashTimer, readSharedPrefMainUseCase)
     

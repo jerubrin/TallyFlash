@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    //CONNECTION
+    <string name="ip_address_key">shared_ip_address</string>
+    <string name="port_key">shared_port</string>
+    <string name="default_ip_address">192.168.0.101</string>
+    <string name="default_port">8088</string>
+
+    //SETTING TITLES
     <string name="main_title_active">Active</string>
     <string name="main_title_preview">Preview</string>
     <string name="main_title_off">Off</string>
@@ -28,7 +35,7 @@
 
     <string name="preview_color_key">shared_color_preview</string>
     <string name="preview_color_title">Preview scene color</string>
-    <string name="preview_default_color">#FF6600</string>
+    <string name="preview_default_color">#FF9900</string>
 
     <string name="preview_flash_key">shared_flash_preview</string>
     <string name="preview_flash_summary">

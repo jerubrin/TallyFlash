@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jerubrin.tallyflash.R
 import com.jerubrin.tallyflash.entity.Scene
 import com.jerubrin.tallyflash.databinding.FragmentScenesListBinding
-import com.jerubrin.tallyflash.domain.UiState
+import com.jerubrin.tallyflash.domain.State
 import com.jerubrin.tallyflash.presentation.adapter.InputsListAdapter
 import com.jerubrin.tallyflash.presentation.vm.ScenesListViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -43,6 +43,9 @@ class ScenesListFragment : Fragment() {
         readSceneList(inputsListAdapter)
     
         binding.btnRetry.setOnClickListener { readSceneList(inputsListAdapter) }
+    
+        //Set clear scene in service (when user close Tally fragment)
+        viewModel.resetService()
         
         return binding.root
     }
@@ -51,11 +54,11 @@ class ScenesListFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.loadSceneList().collectLatest {
                 when(it) {
-                    is UiState.Loading ->
+                    is State.Loading ->
                         showLoading()
-                    is UiState.Error ->
+                    is State.Error ->
                         showError()
-                    is UiState.Ready<*> ->
+                    is State.Ready<*> ->
                         showSceneList(it, adapter)
                     else ->
                         throw IllegalStateException("Unknown State received!")
@@ -64,11 +67,14 @@ class ScenesListFragment : Fragment() {
         }
     }
     
-    private fun showSceneList(it: UiState.Ready<*>, adapter: InputsListAdapter) {
+    private fun showSceneList(it: State.Ready<*>, adapter: InputsListAdapter) {
         binding.progressLoading.isVisible = false
         binding.frameError.isVisible = false
-        if (it.data is List<*>) {
-            adapter.submitList(it.data as MutableList<Scene>)
+        if (it.data is List<*> &&
+            it.data.isNotEmpty() &&
+            it.data[0] is Scene
+        ) {
+            adapter.submitList(it.data as List<Scene>)
         }
     }
     
@@ -78,7 +84,7 @@ class ScenesListFragment : Fragment() {
     }
     
     private fun showError() {
-        val connectionData = viewModel.readSharedPrefConnectionUseCase.execute(Unit)
+        val connectionData = viewModel.getConnectionData()
         binding.progressLoading.isVisible = false
         binding.textViewErrorMsg.text =
             getString(

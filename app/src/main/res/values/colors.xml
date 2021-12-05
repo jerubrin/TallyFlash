@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="off">#000000</color>
-    <color name="preview">#F07000</color>
-    <color name="active">#B00000</color>
+    <color name="activityDarkBackground">#1C1C1C</color>
+    <color name="activityBackground">#E6E6E6</color>
 
-    <color name="error_background">#66B00000</color>
+    <color name="error_message_background">#66B00000</color>
+    <color name="error_screen_background">#FF540000</color>
     <color name="error_text">#F80D0D</color>
 </resources>

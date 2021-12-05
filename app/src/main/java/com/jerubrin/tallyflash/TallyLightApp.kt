@@ -12,19 +12,19 @@ import javax.inject.Inject
 
 @HiltAndroidApp
 class TallyLightApp : Application() {
-    @Inject
-    lateinit var serviceConnection: SceneStateServiceConnection
     
     override fun onCreate() {
         super.onCreate()
         val serviceIntent = Intent(this, SceneStateService::class.java).also {
-            bindService(it, serviceConnection, Context.BIND_AUTO_CREATE)
+            bindService(it, SceneStateServiceConnection, Context.BIND_AUTO_CREATE)
         }
-        
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(serviceIntent)
-        } else {
-            startService(serviceIntent)
+
+        if (SceneStateServiceConnection.bind) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(serviceIntent)
+            } else {
+                startService(serviceIntent)
+            }
         }
     }
     

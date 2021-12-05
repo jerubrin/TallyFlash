@@ -1,7 +1,7 @@
 package com.jerubrin.tallyflash.domain.usecase
 
-import com.jerubrin.tallyflash.domain.UiState
 import com.jerubrin.tallyflash.data.VMixRepository
+import com.jerubrin.tallyflash.domain.State
 import com.jerubrin.tallyflash.entity.Scene
 import com.jerubrin.tallyflash.entity.SceneState
 import javax.inject.Inject
@@ -9,11 +9,11 @@ import javax.inject.Singleton
 
 
 @Singleton
-class WorkingScenesAsyncUseCase @Inject constructor(
+class WorkingScenesUseCase @Inject constructor(
     private val vMixRepository: VMixRepository
-) : BaseAsyncUseCase<UiState, Scene>() {
+) : BaseUseCase<State, Scene>() {
     
-    override suspend fun run(params: Scene): UiState =
+    override suspend fun run(params: Scene): State =
         try {
             val workingScenes = vMixRepository.getWorkingScenes()
             val active = workingScenes.active
@@ -24,12 +24,12 @@ class WorkingScenesAsyncUseCase @Inject constructor(
                     preview -> SceneState.PREVIEW
                     else -> SceneState.OFF
                 }
-            UiState.Ready(sceneState)
+            State.Ready(sceneState)
         } catch (e: Exception) {
-            UiState.Error(e.localizedMessage ?: "")
+            State.Error(e.localizedMessage ?: "")
         }
     
-    override suspend fun start(params: Scene): UiState =
-        UiState.Loading()
+    override suspend fun start(params: Scene): State =
+        State.Loading()
     
 }
