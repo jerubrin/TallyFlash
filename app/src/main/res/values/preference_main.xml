@@ -19,7 +19,7 @@
 
     <string name="active_color_key">shared_color_active</string>
     <string name="active_color_title">Active scene color</string>
-    <string name="active_default_color">#FF0000</string>
+    <string name="active_default_color">#FFFF0000</string>
 
     <string name="active_flash_key">shared_flash_active</string>
     <string name="active_flash_summary">
@@ -35,7 +35,7 @@
 
     <string name="preview_color_key">shared_color_preview</string>
     <string name="preview_color_title">Preview scene color</string>
-    <string name="preview_default_color">#FF9900</string>
+    <string name="preview_default_color">#FFFF9900</string>
 
     <string name="preview_flash_key">shared_flash_preview</string>
     <string name="preview_flash_summary">
@@ -58,7 +58,7 @@
 
     <string name="off_color_key">shared_color_off</string>
     <string name="off_color_title">Off scene color</string>
-    <string name="off_default_color">#000000</string>
+    <string name="off_default_color">#FF000000</string>
 
     //Array
     <string-array name="flash_reaction_state">

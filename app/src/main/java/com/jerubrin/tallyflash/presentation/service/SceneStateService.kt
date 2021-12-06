@@ -7,7 +7,8 @@ import android.os.Build
 import android.os.IBinder
 import com.jerubrin.tallyflash.MainActivity
 import com.jerubrin.tallyflash.R
-import com.jerubrin.tallyflash.domain.State
+import com.jerubrin.tallyflash.di.ServiceModule
+import com.jerubrin.tallyflash.domain.UiState
 import com.jerubrin.tallyflash.domain.usecase.BaseUseCase
 import com.jerubrin.tallyflash.entity.Scene
 import com.jerubrin.tallyflash.entity.SceneState
@@ -27,7 +28,7 @@ import javax.inject.Inject
 class SceneStateService : Service(), SceneStateServiceControl {
     
     @Inject
-    lateinit var workingScenesUseCase: BaseUseCase<State, Scene>
+    lateinit var workingScenesUseCase: BaseUseCase<UiState, Scene>
     
     @Inject
     lateinit var flashController: FlashController
@@ -81,7 +82,7 @@ class SceneStateService : Service(), SceneStateServiceControl {
         CoroutineScope(Dispatchers.IO).launch {
             while (true) {
                 if (currentScene.number >= 0) {
-                    updateUiState()
+                    updateState()
                 } else {
                     _sceneState.value = SceneState.OFF
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -101,13 +102,13 @@ class SceneStateService : Service(), SceneStateServiceControl {
         }
     }
     
-    private suspend fun updateUiState() {
+    private suspend fun updateState() {
         workingScenesUseCase.execute(currentScene).collectLatest {
-            if (it is State.Ready<*>) {
+            if (it is UiState.Ready<*>) {
                 _sceneState.value = it.data as SceneState
             }
             
-            if (it is State.Error) {
+            if (it is UiState.Error) {
                 if(countErrorStates > MAX_ERROR_COUNT) {
                     _sceneState.value = SceneState.ERROR
                 } else {

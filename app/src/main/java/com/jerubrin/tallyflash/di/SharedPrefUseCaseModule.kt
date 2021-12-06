@@ -1,7 +1,7 @@
 package com.jerubrin.tallyflash.di
 
 import android.content.SharedPreferences
-import android.content.res.Resources
+import com.jerubrin.tallyflash.data.ResourcesInterface
 import com.jerubrin.tallyflash.domain.usecase.prefs.BasePrefsUseCase
 import com.jerubrin.tallyflash.domain.usecase.prefs.ReadSharedPrefConnectionUseCase
 import com.jerubrin.tallyflash.domain.usecase.prefs.ReadSharedPrefMainUseCase
@@ -19,21 +19,21 @@ object SharedPrefUseCaseModule {
     
     @Provides
     fun providesReadSharedPrefMainUseCase(
-        resources: Resources,
+        resources: ResourcesInterface,
         sharedPrefs: SharedPreferences
     ): BasePrefsUseCase<SettingsData, Unit> =
         ReadSharedPrefMainUseCase(resources, sharedPrefs)
     
     @Provides
     fun providesReadSharedPrefConnectionUseCase(
-        resources: Resources,
+        resources: ResourcesInterface,
         sharedPrefs: SharedPreferences
     ): BasePrefsUseCase<ConnectionData, Unit> =
         ReadSharedPrefConnectionUseCase(resources, sharedPrefs)
     
     @Provides
     fun providesWriteSharedPrefConnectionUseCase(
-        resources: Resources,
+        resources: ResourcesInterface,
         sharedPrefs: SharedPreferences
     ): BasePrefsUseCase<Boolean, ConnectionData> =
         WriteSharedPrefConnectionUseCase(resources, sharedPrefs)

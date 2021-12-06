@@ -1,7 +1,8 @@
 package com.jerubrin.tallyflash.di
 
 import android.content.Context
-import android.content.res.Resources
+import com.jerubrin.tallyflash.data.AppResources
+import com.jerubrin.tallyflash.data.ResourcesInterface
 import com.jerubrin.tallyflash.presentation.service.SceneStateServiceConnection
 import com.jerubrin.tallyflash.presentation.service.SceneStateServiceControl
 import dagger.Module
@@ -23,7 +24,7 @@ object AppModule {
     @Provides
     fun providesResources(
         @ApplicationContext context: Context
-    ): Resources =
-        context.resources
+    ): ResourcesInterface =
+        AppResources(context)
     
 }

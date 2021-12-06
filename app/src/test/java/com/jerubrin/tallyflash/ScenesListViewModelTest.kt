@@ -7,7 +7,7 @@ import com.jerubrin.tallyflash.data.TestVMixRepository
 import com.jerubrin.tallyflash.di.AppModule
 import com.jerubrin.tallyflash.di.DataModule
 import com.jerubrin.tallyflash.di.SharedPrefUseCaseModule
-import com.jerubrin.tallyflash.domain.State
+import com.jerubrin.tallyflash.domain.UiState
 import com.jerubrin.tallyflash.entity.Scene
 import com.jerubrin.tallyflash.presentation.service.SceneStateServiceControl
 import com.jerubrin.tallyflash.presentation.vm.ScenesListViewModel
@@ -60,8 +60,8 @@ class ScenesListViewModelTest {
         runBlockingTest {
             viewModel.loadSceneList().test {
                 val state = awaitItem()
-                if (state is State.Ready<*>) {
-                    val ready = (state as State.Ready<List<Scene>>).data
+                if (state is UiState.Ready<*>) {
+                    val ready = (state as UiState.Ready<List<Scene>>).data
                     Assert.assertEquals(ready, TestVMixRepository.SCENES_LIST)
                 }
                 cancelAndIgnoreRemainingEvents()

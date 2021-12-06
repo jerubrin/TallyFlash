@@ -1,13 +1,13 @@
 package com.jerubrin.tallyflash.domain.usecase.prefs
 
 import android.content.SharedPreferences
-import android.content.res.Resources
 import com.jerubrin.tallyflash.R
+import com.jerubrin.tallyflash.data.ResourcesInterface
 import com.jerubrin.tallyflash.entity.ConnectionData
 
 
 class WriteSharedPrefConnectionUseCase (
-    private val resources: Resources,
+    private val resources: ResourcesInterface,
     private val sharedPref: SharedPreferences
 ) : BasePrefsUseCase<Boolean, ConnectionData>() {
     

@@ -9,6 +9,8 @@
 
     <string name="wrong_ip">"Wrong IP-address."</string>
     <string name="wrong_port">"Wrong port."</string>
+    <string name="wrong_wtf">"Something went wrong."</string>
+
     <string name="connection_error">Failed connect to %1$s:%2$s</string>
     <string name="error">Error</string>
     <string name="notification_message">Select scene to start working…</string>

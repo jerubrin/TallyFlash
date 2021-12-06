@@ -1,7 +1,7 @@
 package com.jerubrin.tallyflash.presentation.vm
 
 import androidx.lifecycle.ViewModel
-import com.jerubrin.tallyflash.domain.State
+import com.jerubrin.tallyflash.domain.UiState
 import com.jerubrin.tallyflash.domain.usecase.BaseUseCase
 import com.jerubrin.tallyflash.domain.usecase.prefs.BasePrefsUseCase
 import com.jerubrin.tallyflash.entity.ConnectionData
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ScenesListViewModel @Inject constructor(
-    private val sceneListUseCase: BaseUseCase<State, ConnectionData>,
+    private val sceneListUseCase: BaseUseCase<UiState, ConnectionData>,
     private val readSharedPrefConnectionUseCase: BasePrefsUseCase<ConnectionData, Unit>,
     private val service: SceneStateServiceControl
 ) : ViewModel() {
@@ -22,7 +22,7 @@ class ScenesListViewModel @Inject constructor(
     fun getConnectionData(): ConnectionData =
         readSharedPrefConnectionUseCase.execute(Unit)
     
-    fun loadSceneList(): Flow<State> =
+    fun loadSceneList(): Flow<UiState> =
         sceneListUseCase.execute(
             getConnectionData()
         )

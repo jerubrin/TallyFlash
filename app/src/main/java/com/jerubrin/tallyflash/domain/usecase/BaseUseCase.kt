@@ -6,12 +6,15 @@ import kotlinx.coroutines.flow.flow
 
 abstract class BaseUseCase<Type, Params>() {
     
-    abstract suspend fun start(params: Params): Type
+    open suspend fun start(params: Params?): Type? =
+        null
     
     abstract suspend fun run(params: Params): Type
     
     fun execute(params: Params): Flow<Type> = flow {
-        emit(start(params))
+        start(params).also {
+            if(it != null) emit(it)
+        }
         emit(run(params))
     }
     

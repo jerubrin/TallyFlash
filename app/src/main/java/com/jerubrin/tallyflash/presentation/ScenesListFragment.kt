@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jerubrin.tallyflash.R
 import com.jerubrin.tallyflash.entity.Scene
 import com.jerubrin.tallyflash.databinding.FragmentScenesListBinding
-import com.jerubrin.tallyflash.domain.State
+import com.jerubrin.tallyflash.domain.UiState
 import com.jerubrin.tallyflash.presentation.adapter.InputsListAdapter
 import com.jerubrin.tallyflash.presentation.vm.ScenesListViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -54,11 +54,11 @@ class ScenesListFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.loadSceneList().collectLatest {
                 when(it) {
-                    is State.Loading ->
+                    is UiState.Loading ->
                         showLoading()
-                    is State.Error ->
+                    is UiState.Error ->
                         showError()
-                    is State.Ready<*> ->
+                    is UiState.Ready<*> ->
                         showSceneList(it, adapter)
                     else ->
                         throw IllegalStateException("Unknown State received!")
@@ -67,7 +67,7 @@ class ScenesListFragment : Fragment() {
         }
     }
     
-    private fun showSceneList(it: State.Ready<*>, adapter: InputsListAdapter) {
+    private fun showSceneList(it: UiState.Ready<*>, adapter: InputsListAdapter) {
         binding.progressLoading.isVisible = false
         binding.frameError.isVisible = false
         if (it.data is List<*> &&

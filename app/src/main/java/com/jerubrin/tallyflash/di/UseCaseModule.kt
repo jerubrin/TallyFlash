@@ -1,7 +1,7 @@
 package com.jerubrin.tallyflash.di
 
 import com.jerubrin.tallyflash.data.VMixRepository
-import com.jerubrin.tallyflash.domain.State
+import com.jerubrin.tallyflash.domain.UiState
 import com.jerubrin.tallyflash.domain.usecase.BaseUseCase
 import com.jerubrin.tallyflash.domain.usecase.SceneListUseCase
 import com.jerubrin.tallyflash.domain.usecase.WorkingScenesUseCase
@@ -19,12 +19,12 @@ object UseCaseModule {
     @Provides
     fun providesSceneListAsyncUseCase(
         vMixRepository: VMixRepository
-    ): BaseUseCase<State, ConnectionData> =
+    ): BaseUseCase<UiState, ConnectionData> =
         SceneListUseCase(vMixRepository)
     
     @Provides
     fun providesWorkingScenesAsyncUseCase(
         vMixRepository: VMixRepository
-    ): BaseUseCase<State, Scene> =
+    ): BaseUseCase<UiState, Scene> =
         WorkingScenesUseCase(vMixRepository)
 }

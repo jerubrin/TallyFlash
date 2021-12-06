@@ -1,5 +1,7 @@
 package com.jerubrin.tallyflash.di
 
+import com.jerubrin.tallyflash.data.ResourcesInterface
+import com.jerubrin.tallyflash.data.TestResources
 import com.jerubrin.tallyflash.presentation.service.SceneStateServiceControl
 import com.jerubrin.tallyflash.presentation.service.TestSceneStateServiceControl
 import dagger.Module
@@ -20,5 +22,10 @@ object TestAppModule {
     @Provides
     fun providesService(): SceneStateServiceControl =
         TestSceneStateServiceControl()
+    
+    @Singleton
+    @Provides
+    fun providesResources(): ResourcesInterface =
+        TestResources()
     
 }

@@ -3,18 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/connectFragment">
+    app:startDestination="@id/connectionFragment">
 
     <fragment
-        android:id="@+id/connectFragment"
-        android:name="com.jerubrin.tallyflash.presentation.ConnectFragment"
-        android:label="fragment_connect"
-        tools:layout="@layout/fragment_connect" >
+        android:id="@+id/connectionFragment"
+        android:name="com.jerubrin.tallyflash.presentation.ConnectionFragment"
+        android:label="fragment_connection"
+        tools:layout="@layout/fragment_connection" >
         <action
-            android:id="@+id/action_connectFragment_to_scenesListFragment"
+            android:id="@+id/action_connectionFragment_to_scenesListFragment"
             app:destination="@id/scenesListFragment" />
         <action
-            android:id="@+id/action_connectFragment_to_mainPreferenceFragment"
+            android:id="@+id/action_connectionFragment_to_mainPreferenceFragment"
             app:destination="@id/mainPreferenceFragment" />
     </fragment>
     <fragment

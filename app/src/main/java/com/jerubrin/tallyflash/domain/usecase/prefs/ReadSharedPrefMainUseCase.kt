@@ -1,18 +1,16 @@
 package com.jerubrin.tallyflash.domain.usecase.prefs
 
 import android.content.SharedPreferences
-import android.content.res.Resources
 import androidx.core.graphics.toColorInt
 import com.jerubrin.tallyflash.R
-import com.jerubrin.tallyflash.domain.State
-import com.jerubrin.tallyflash.domain.usecase.BaseUseCase
+import com.jerubrin.tallyflash.data.ResourcesInterface
 import com.jerubrin.tallyflash.entity.FlashReactionState
 import com.jerubrin.tallyflash.entity.SettingsData
 import javax.inject.Inject
 
 
 class ReadSharedPrefMainUseCase @Inject constructor(
-    private val resources: Resources,
+    private val resources: ResourcesInterface,
     private val sharedPref: SharedPreferences
 ) : BasePrefsUseCase<SettingsData, Unit>() {
     

@@ -24,7 +24,7 @@
             android:entries="@array/flash_reaction_state"
             android:entryValues="@array/flash_reaction_state_values"
             android:defaultValue="@string/default_value_active"
-            app:allowDividerBelow="true"/>
+            app:allowDividerBelow="true" />
 
         <PreferenceCategory
             android:title="@string/main_title_preview"

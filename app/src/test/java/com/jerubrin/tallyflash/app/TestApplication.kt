@@ -1,4 +1,4 @@
-package com.jerubrin.tallyflash
+package com.jerubrin.tallyflash.app
 
 import android.app.Application
 import dagger.hilt.android.testing.CustomTestApplication
