@@ -19,17 +19,21 @@ class ScenesListViewModel @Inject constructor(
     private val service: SceneStateServiceControl
 ) : ViewModel() {
     
-    fun getConnectionData(): ConnectionData =
-        readSharedPrefConnectionUseCase.execute(Unit)
+    val connectionDataState get() =
+        UiState.Ready(
+            readSharedPrefConnectionUseCase.execute(Unit)
+        )
     
     fun loadSceneList(): Flow<UiState> =
         sceneListUseCase.execute(
-            getConnectionData()
+            connectionDataState.data
         )
     
     fun resetService() {
         //clear scene in service
-        service.setCurrentScene( Scene() )
+        service.setCurrentScene(
+            UiState.Ready( Scene() )
+        )
     }
     
 }

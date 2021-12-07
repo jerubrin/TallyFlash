@@ -3,6 +3,7 @@ package com.jerubrin.tallyflash.presentation.vm
 import androidx.lifecycle.ViewModel
 import com.jerubrin.tallyflash.R
 import com.jerubrin.tallyflash.data.ResourcesInterface
+import com.jerubrin.tallyflash.domain.UiState
 import com.jerubrin.tallyflash.domain.usecase.prefs.BasePrefsUseCase
 import com.jerubrin.tallyflash.entity.ConnectionData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,33 +12,31 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ConnectionViewModel @Inject constructor(
-    readSharedPrefConnectionUseCase: BasePrefsUseCase<ConnectionData, Unit>,
+    private val readSharedPrefConnectionUseCase: BasePrefsUseCase<ConnectionData, Unit>,
     private val writeSharedPrefConnectionUseCase: BasePrefsUseCase<Boolean, ConnectionData>,
     private val resources: ResourcesInterface
 ) : ViewModel() {
     
-    private val connectionData = readSharedPrefConnectionUseCase.execute(Unit)
-    val url = connectionData.ip
-    val port = connectionData.port
+    val connectionDataState get() =
+        UiState.Ready(readSharedPrefConnectionUseCase.execute(Unit))
     
-    fun checkAndSaveConnectionData(url: String, port: String): CorrectInputState {
-        checkIpAndPort(url, port).also {
-            if (it is CorrectInputState.Correct) {
-                val connectionData = ConnectionData(ip = url, port = port)
-                writeSharedPrefConnectionUseCase.execute(connectionData)
+    fun checkAndSaveConnectionData(uiState: UiState.Ready<ConnectionData>): UiState {
+        checkIpAndPort(uiState.data).also {
+            if (it is UiState.Ready<*>) {
+                writeSharedPrefConnectionUseCase.execute(it.data as ConnectionData)
             }
             return it
         }
     }
     
-    private fun checkIpAndPort(url: String, port: String): CorrectInputState {
-        if (url.count{ ".".contains(it) } != 3)
-            return CorrectInputState.WrongIp(resources.getString(R.string.wrong_ip))
-        if (url.replace(".", "").toLongOrNull() == null)
-            return CorrectInputState.WrongIp(resources.getString(R.string.wrong_ip))
-        if (port.toIntOrNull() == null)
-            return CorrectInputState.WrongPort(resources.getString(R.string.wrong_port))
-        return CorrectInputState.Correct("")
+    private fun checkIpAndPort(connectionData: ConnectionData): UiState {
+        if (connectionData.ip.count{ ".".contains(it) } != 3)
+            return UiState.Error(resources.getString(R.string.wrong_ip))
+        if (connectionData.ip.replace(".", "").toLongOrNull() == null)
+            return UiState.Error(resources.getString(R.string.wrong_ip))
+        if (connectionData.port.toIntOrNull() == null)
+            return UiState.Error(resources.getString(R.string.wrong_port))
+        return UiState.Ready(connectionData)
     }
     
     

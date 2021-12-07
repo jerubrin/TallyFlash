@@ -60,7 +60,7 @@ class ScenesListViewModelTest {
         runBlockingTest {
             viewModel.loadSceneList().test {
                 val state = awaitItem()
-                if (state is UiState.Ready<*>) {
+                if (state is UiState.Ready<*> && state.data is List<*>) {
                     val ready = (state as UiState.Ready<List<Scene>>).data
                     Assert.assertEquals(ready, TestVMixRepository.SCENES_LIST)
                 }
@@ -71,7 +71,7 @@ class ScenesListViewModelTest {
     
     @Test
     fun testGetConnectionData() {
-        viewModel.getConnectionData().also { connectionData ->
+        viewModel.connectionDataState.data.also { connectionData ->
             Assert.assertEquals(
                 connectionData.ip,
                 TestReadSharedPrefConnectionUseCase.DEFAULT_IP
@@ -85,13 +85,16 @@ class ScenesListViewModelTest {
     
     @Test
     fun testResetService() {
-        val notDefaultScene = Scene(key = "1", number = 1, type = "1", shortTitle = "notDefScene")
+        val notDefaultSceneState =
+            UiState.Ready(
+                Scene(key = "1", number = 1, type = "1", shortTitle = "notDefScene")
+            )
     
-        sceneStateServiceControl.setCurrentScene(notDefaultScene)
+        sceneStateServiceControl.setCurrentScene(notDefaultSceneState)
         viewModel.resetService()
         
         Assert.assertEquals(
-            Scene(), //Default scene
+            UiState.Ready( Scene() ), //Default scene
             sceneStateServiceControl.getCurrentScene()
         )
     }

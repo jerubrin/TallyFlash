@@ -7,6 +7,7 @@ import app.cash.turbine.test
 import com.jerubrin.tallyflash.di.AppModule
 import com.jerubrin.tallyflash.di.DataModule
 import com.jerubrin.tallyflash.di.SharedPrefUseCaseModule
+import com.jerubrin.tallyflash.domain.UiState
 import com.jerubrin.tallyflash.domain.prefs.TestReadSharedPrefMainUseCase
 import com.jerubrin.tallyflash.domain.usecase.prefs.BasePrefsUseCase
 import com.jerubrin.tallyflash.entity.Scene
@@ -71,9 +72,9 @@ class TallyViewModelTest : TestCase() {
     @Test
     fun testSetNewScene() {
         val scene = Scene(key = "9", number = 9, type = "newScene", shortTitle = "NewScene")
-        viewModel.setNewScene(scene)
+        viewModel.setNewScene( UiState.Ready(scene) )
     
-        val field = viewModel.javaClass.getDeclaredField("currentScene")
+        val field = viewModel.javaClass.getDeclaredField("_currentScene")
         field.isAccessible = true
         val resScene = field.get(viewModel) as Scene
     
@@ -82,7 +83,7 @@ class TallyViewModelTest : TestCase() {
     
     @Test
     fun testGetGetSettingsData() {
-        val settingsData = viewModel.getSettingsData
+        val settingsData = viewModel.getSettingsData.data
         TestReadSharedPrefMainUseCase.apply {
             Assert.assertEquals(ACTIVE_COLOR, settingsData.activeColor)
             Assert.assertEquals(ACTIVE_FLASH, settingsData.activeFlash)
@@ -97,20 +98,13 @@ class TallyViewModelTest : TestCase() {
     }
     
     @Test
-    fun testGetNumber() {
-        val scene = Scene(key = "8", number = 8, type = "newScene", shortTitle = "NewScene")
+    fun checkCurrentSceneUiState() {
+        val sceneUiState = UiState.Ready(
+            Scene(key = "8", number = 8, type = "newScene", shortTitle = "NewScene")
+        )
         
-        viewModel.setNewScene(scene)
+        viewModel.setNewScene(sceneUiState)
     
-        Assert.assertEquals(viewModel.number, scene.number)
-    }
-    
-    @Test
-    fun testTestGetName() {
-        val scene = Scene(key = "7", number = 7, type = "newScene", shortTitle = "NewScene")
-        
-        viewModel.setNewScene(scene)
-    
-        Assert.assertEquals(viewModel.name, scene.shortTitle)
+        Assert.assertEquals(viewModel.currentSceneUiState, sceneUiState)
     }
 }

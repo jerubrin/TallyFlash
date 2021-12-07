@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.IBinder
 import com.jerubrin.tallyflash.MainActivity
 import com.jerubrin.tallyflash.R
-import com.jerubrin.tallyflash.di.ServiceModule
 import com.jerubrin.tallyflash.domain.UiState
 import com.jerubrin.tallyflash.domain.usecase.BaseUseCase
 import com.jerubrin.tallyflash.entity.Scene
@@ -41,11 +40,11 @@ class SceneStateService : Service(), SceneStateServiceControl {
         _sceneState
     
     private var currentScene: Scene = Scene()
-    override fun setCurrentScene(scene: Scene) {
-        currentScene = scene
+    override fun setCurrentScene(sceneState: UiState.Ready<Scene>) {
+        currentScene = sceneState.data
     }
-    override fun getCurrentScene(): Scene =
-        currentScene
+    override fun getCurrentScene(): UiState =
+        UiState.Ready(currentScene)
     
     private var countErrorStates = 0
     
@@ -85,9 +84,7 @@ class SceneStateService : Service(), SceneStateServiceControl {
                     updateState()
                 } else {
                     _sceneState.value = SceneState.OFF
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        flashController.changeFlashLightState(SceneState.OFF)
-                    }
+                    flashController.changeFlashLightState(SceneState.OFF)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         //getSystemService()
                         screenStateSerNotification.updateNotificationText(
@@ -117,10 +114,8 @@ class SceneStateService : Service(), SceneStateServiceControl {
             } else {
                 countErrorStates = 0
             }
-    
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                flashController.changeFlashLightState(_sceneState.value)
-            }
+            
+            flashController.changeFlashLightState(_sceneState.value)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 screenStateSerNotification.changeNotification(
                     this,
@@ -140,9 +135,7 @@ class SceneStateService : Service(), SceneStateServiceControl {
     }
     
     override fun onDestroy() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            flashController.changeFlashLightState(SceneState.OFF)
-        }
+        flashController.changeFlashLightState(SceneState.OFF)
         super.onDestroy()
     }
     
@@ -157,10 +150,10 @@ class SceneStateService : Service(), SceneStateServiceControl {
 
 interface SceneStateServiceControl {
     
-    fun setCurrentScene(scene: Scene)
+    fun setCurrentScene(sceneState: UiState.Ready<Scene>) //Scene
     
-    fun getCurrentScene(): Scene
+    fun getCurrentScene(): UiState //Scene
     
-    fun getSceneState(): StateFlow<SceneState>
+    fun getSceneState(): StateFlow<SceneState> //SceneState
 
 }

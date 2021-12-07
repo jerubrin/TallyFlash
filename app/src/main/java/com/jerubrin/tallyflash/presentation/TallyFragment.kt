@@ -1,7 +1,5 @@
 package com.jerubrin.tallyflash.presentation
 
-import android.graphics.BlendMode
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.jerubrin.tallyflash.R
 import com.jerubrin.tallyflash.databinding.FragmentTallyBinding
-import com.jerubrin.tallyflash.entity.Scene
+import com.jerubrin.tallyflash.domain.UiState
 import com.jerubrin.tallyflash.entity.SceneState
 import com.jerubrin.tallyflash.presentation.vm.TallyViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,7 +32,9 @@ class TallyFragment : Fragment() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.setNewScene(args.scene)
+        viewModel.setNewScene(
+            UiState.Ready(args.scene)
+        )
     }
     
     override fun onCreateView(
@@ -43,12 +43,14 @@ class TallyFragment : Fragment() {
     ): View {
         _binding = FragmentTallyBinding.inflate(inflater, container, false)
     
-        binding.textViewName.text = viewModel.name
-        binding.textViewNumber.text = viewModel.number.toString()
+        viewModel.currentSceneUiState.data.apply {
+            binding.textViewName.text = shortTitle
+            binding.textViewNumber.text = number.toString()
+        }
         
         lifecycleScope.launch {
             viewModel.sceneState.collectLatest {
-                val settingsData = viewModel.getSettingsData
+                val settingsData = viewModel.getSettingsData.data
                 when(it) {
                     SceneState.ACTIVE -> {
                         binding.root.background = settingsData.activeColor.toDrawable()

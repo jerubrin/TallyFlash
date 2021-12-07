@@ -5,13 +5,14 @@ import androidx.activity.viewModels
 import com.jerubrin.tallyflash.di.AppModule
 import com.jerubrin.tallyflash.di.DataModule
 import com.jerubrin.tallyflash.di.SharedPrefUseCaseModule
+import com.jerubrin.tallyflash.domain.UiState
+import com.jerubrin.tallyflash.entity.ConnectionData
 import com.jerubrin.tallyflash.presentation.vm.ConnectionViewModel
-import com.jerubrin.tallyflash.presentation.vm.ConnectionViewModel.CorrectInputState
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import dagger.hilt.android.testing.UninstallModules
-import junit.framework.Assert.assertEquals
+import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -44,37 +45,42 @@ class ConnectionViewModelTest {
     }
     
     @Test
-    fun getUrl() {
+    fun checkGetConnectionData() {
         assertEquals(
             TestReadSharedPrefConnectionUseCase.DEFAULT_IP,
-            viewModel.url
+            viewModel.connectionDataState.data.ip
         )
-    }
-    
-    @Test
-    fun getPort() {
         assertEquals(
             TestReadSharedPrefConnectionUseCase.DEFAULT_PORT,
-            viewModel.port
+            viewModel.connectionDataState.data.port
         )
     }
     
     @Test
     fun checkAndSaveConnectionData() {
-        viewModel.checkAndSaveConnectionData("192.168.0.1", "8088").also {
-            assert(it is CorrectInputState.Correct)
+        var uiState = UiState.Ready( ConnectionData("192.168.0.1", "8088") )
+        viewModel.checkAndSaveConnectionData(uiState).also {
+            assert(it is UiState.Ready<*>)
         }
-        viewModel.checkAndSaveConnectionData("192.168.1", "8088").also {
-            assert(it is CorrectInputState.WrongIp)
+    
+        uiState = UiState.Ready( ConnectionData("192.168.1", "8088") )
+        viewModel.checkAndSaveConnectionData(uiState).also {
+            assert(it is UiState.Error)
         }
-        viewModel.checkAndSaveConnectionData("192.168.0.1.1", "8088").also {
-            assert(it is CorrectInputState.WrongIp)
+    
+        uiState = UiState.Ready( ConnectionData("192.168.0.1.1", "8088") )
+        viewModel.checkAndSaveConnectionData(uiState).also {
+            assert(it is UiState.Error)
         }
-        viewModel.checkAndSaveConnectionData("192.168.0.1", "").also {
-            assert(it is CorrectInputState.WrongPort)
+    
+        uiState = UiState.Ready( ConnectionData("192.168.0.1", "") )
+        viewModel.checkAndSaveConnectionData(uiState).also {
+            assert(it is UiState.Error)
         }
-        viewModel.checkAndSaveConnectionData("192.168.0.1", "---").also {
-            assert(it is CorrectInputState.WrongPort)
+    
+        uiState = UiState.Ready( ConnectionData("192.168.0.1", "---") )
+        viewModel.checkAndSaveConnectionData(uiState).also {
+            assert(it is UiState.Error)
         }
     }
 }

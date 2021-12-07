@@ -70,12 +70,7 @@ class ScenesListFragment : Fragment() {
     private fun showSceneList(it: UiState.Ready<*>, adapter: InputsListAdapter) {
         binding.progressLoading.isVisible = false
         binding.frameError.isVisible = false
-        if (it.data is List<*> &&
-            it.data.isNotEmpty() &&
-            it.data[0] is Scene
-        ) {
-            adapter.submitList(it.data as List<Scene>)
-        }
+        adapter.submitList(it.data as List<Scene>)
     }
     
     private fun showLoading() {
@@ -84,7 +79,7 @@ class ScenesListFragment : Fragment() {
     }
     
     private fun showError() {
-        val connectionData = viewModel.getConnectionData()
+        val connectionData = viewModel.connectionDataState.data
         binding.progressLoading.isVisible = false
         binding.textViewErrorMsg.text =
             getString(

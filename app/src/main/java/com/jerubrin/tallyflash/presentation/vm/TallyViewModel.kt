@@ -1,6 +1,7 @@
 package com.jerubrin.tallyflash.presentation.vm
 
 import androidx.lifecycle.ViewModel
+import com.jerubrin.tallyflash.domain.UiState
 import com.jerubrin.tallyflash.domain.usecase.prefs.BasePrefsUseCase
 import com.jerubrin.tallyflash.entity.Scene
 import com.jerubrin.tallyflash.entity.SceneState
@@ -16,17 +17,16 @@ class TallyViewModel @Inject constructor(
     private val service: SceneStateServiceControl
 ) : ViewModel() {
     
-    private var currentScene: Scene = Scene()
-    
-    val number get() = currentScene.number
-    val name get() = currentScene.shortTitle
+    private var _currentScene: Scene = Scene()
+    val currentSceneUiState get() =  UiState.Ready(_currentScene)
     
     val sceneState: StateFlow<SceneState> get() = service.getSceneState()
     
-    fun setNewScene(scene: Scene) {
-        currentScene = scene
-        service.setCurrentScene(scene)
+    fun setNewScene(uiState: UiState.Ready<Scene>) {
+        _currentScene = uiState.data
+        service.setCurrentScene(uiState)
     }
     
-    val getSettingsData get() = readSharedPrefMainUseCase.execute(Unit)
+    val getSettingsData get() =
+        UiState.Ready( readSharedPrefMainUseCase.execute(Unit) )
 }

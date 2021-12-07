@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.jerubrin.tallyflash.databinding.FragmentConnectionBinding
+import com.jerubrin.tallyflash.domain.UiState
+import com.jerubrin.tallyflash.entity.ConnectionData
 import com.jerubrin.tallyflash.presentation.vm.ConnectionViewModel
 import com.jerubrin.tallyflash.presentation.vm.ConnectionViewModel.CorrectInputState
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,20 +30,26 @@ class ConnectionFragment : Fragment() {
     ): View {
         _binding = FragmentConnectionBinding.inflate(inflater, container, false)
         
-        binding.editTextIp.setText(viewModel.url)
-        binding.editTextPort.setText(viewModel.port)
+        viewModel.connectionDataState.data.apply {
+            binding.editTextIp.setText(ip)
+            binding.editTextPort.setText(port)
+        }
         
         binding.btnConnect.setOnClickListener {
-            val url = binding.editTextIp.text.toString()
-            val port = binding.editTextPort.text.toString()
+            val connect = ConnectionData(
+                binding.editTextIp.text.toString(),
+                binding.editTextPort.text.toString()
+            )
             
-            viewModel.checkAndSaveConnectionData(url, port).also {
-                if (it is CorrectInputState.Correct) {
+            viewModel.checkAndSaveConnectionData(UiState.Ready(connect)).also { state ->
+                if (state is UiState.Ready<*>) {
                     val action =
                         ConnectionFragmentDirections.actionConnectionFragmentToScenesListFragment()
                     findNavController().navigate(action)
                 }
-                binding.textViewErrorMessage.text = it.errorMsg
+                if (state is UiState.Error) {
+                    binding.textViewErrorMessage.text = state.errorMessage
+                }
             }
         }
         
