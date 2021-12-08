@@ -6,7 +6,7 @@
     <color name="secondary_white">#C1C1C1</color>
 
     <color name="activityDarkBackground">#241A00</color>
-    <color name="activityBackground">#231C15</color>
+    <color name="activityBackground">#F5DEC7</color>
 
     <color name="error_message_background">#66B00000</color>
     <color name="error_screen_background">#FF540000</color>
