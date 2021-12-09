@@ -12,7 +12,6 @@ import com.jerubrin.tallyflash.databinding.FragmentConnectionBinding
 import com.jerubrin.tallyflash.domain.UiState
 import com.jerubrin.tallyflash.entity.ConnectionData
 import com.jerubrin.tallyflash.presentation.vm.ConnectionViewModel
-import com.jerubrin.tallyflash.presentation.vm.ConnectionViewModel.CorrectInputState
 import dagger.hilt.android.AndroidEntryPoint
 
 

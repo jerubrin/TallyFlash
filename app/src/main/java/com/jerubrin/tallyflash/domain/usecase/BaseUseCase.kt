@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 
-abstract class BaseUseCase<Type, Params>() {
+abstract class BaseUseCase<Type, Params> {
     
     open suspend fun start(params: Params?): Type? =
         null

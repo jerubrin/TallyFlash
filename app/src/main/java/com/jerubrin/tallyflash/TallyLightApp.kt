@@ -7,7 +7,6 @@ import android.os.Build
 import com.jerubrin.tallyflash.presentation.service.SceneStateService
 import com.jerubrin.tallyflash.presentation.service.SceneStateServiceConnection
 import dagger.hilt.android.HiltAndroidApp
-import javax.inject.Inject
 
 
 @HiltAndroidApp

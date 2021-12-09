@@ -39,13 +39,4 @@ class ConnectionViewModel @Inject constructor(
         return UiState.Ready(connectionData)
     }
     
-    
-    sealed class CorrectInputState(val errorMsg: String) {
-        
-        data class Correct(val message: String) : CorrectInputState(message)
-        
-        data class WrongIp(val message: String) : CorrectInputState(message)
-        
-        data class WrongPort(val message: String): CorrectInputState(message)
-    }
 }

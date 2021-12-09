@@ -7,9 +7,6 @@ import com.jerubrin.tallyflash.R
 import com.rarepebble.colorpicker.ColorPreference
 
 
-
-
-
 class MainPreferenceFragment : PreferenceFragmentCompat() {
     
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

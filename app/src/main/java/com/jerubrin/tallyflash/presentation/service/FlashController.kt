@@ -39,14 +39,11 @@ class FlashController(
         }
     
     fun changeFlashLightState(sceneState: SceneState) {
-        val isFlashAvailable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        val isFlashAvailable =
             cameraManager
                 ?.getCameraCharacteristics("0")
                 ?.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) ?: false
-        } else {
-            false
-        }
-        //            .get(CameraCharacteristics.FLASH_INFO_AVAILABLE)
+        
         if (
             context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY) &&
             context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH) &&
