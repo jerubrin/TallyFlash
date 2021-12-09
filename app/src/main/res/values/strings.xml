@@ -13,7 +13,7 @@
 
     <string name="connection_error">Failed connect to %1$s:%2$s</string>
     <string name="error">Error</string>
-    <string name="notification_message">Select scene to start working…</string>
+    <string name="notification_message">Select a scene to start working…</string>
     <string name="shared_main">main_settings</string>
 
 

@@ -23,13 +23,13 @@
 
     <string name="active_flash_key">shared_flash_active</string>
     <string name="active_flash_summary">
-        Select what flash light will do if your scene is active
+        Select what flashlight will do if your scene is active
     </string>
-    <string name="active_flash_title">Active scene flash reaction</string>>
+    <string name="active_flash_title">Active scene flashlight reaction</string>>
 
     //PREVIEW
     <string name="preview_text_key">shared_text_preview</string>
-    <string name="preview_text_summary">Enter what you will see if your scene is on preview</string>
+    <string name="preview_text_summary">Enter what you will see if your scene is on the preview</string>
     <string name="preview_text_title">Preview scene label</string>
     <string name="preview_default_text">Preview</string>
 
@@ -39,13 +39,13 @@
 
     <string name="preview_flash_key">shared_flash_preview</string>
     <string name="preview_flash_summary">
-        Select what flash light will do if your scene is on preview
+        Select what flashlight will do if your scene is on the preview
     </string>
-    <string name="preview_flash_title">Preview scene flash reaction</string>
+    <string name="preview_flash_title">Preview scene flashlight reaction</string>
 
     <string name="preview_blink_key">shared_blink_after</string>
     <string name="preview_blink_summary">
-        Do you need blinking on preview after active scene?
+        Do you need blinking on the preview after the active scene?
     </string>
     <string name="preview_blink_title">Blink after Active</string>
     <string name="preview_default_blink">false</string>
