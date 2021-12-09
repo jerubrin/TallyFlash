@@ -18,13 +18,11 @@ class TallyLightApp : Application() {
         val serviceIntent = Intent(this, SceneStateService::class.java).also {
             bindService(it, SceneStateServiceConnection, Context.BIND_AUTO_CREATE)
         }
-
-        if (SceneStateServiceConnection.bind) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForegroundService(serviceIntent)
-            } else {
-                startService(serviceIntent)
-            }
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(serviceIntent)
+        } else {
+            startService(serviceIntent)
         }
     }
     
