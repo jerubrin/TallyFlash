@@ -106,12 +106,13 @@ class SceneStateService : Service(), SceneStateServiceControl {
             }
             
             if (it is UiState.Error) {
-                if(countErrorStates > MAX_ERROR_COUNT) {
+                if (countErrorStates > MAX_ERROR_COUNT) {
                     _sceneState.value = SceneState.ERROR
                 } else {
                     countErrorStates++
                 }
-            } else {
+            }
+            if (it is UiState.Ready<*>) {
                 countErrorStates = 0
             }
             
