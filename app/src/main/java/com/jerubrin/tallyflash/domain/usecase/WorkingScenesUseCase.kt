@@ -16,12 +16,16 @@ class WorkingScenesUseCase @Inject constructor(
     override suspend fun run(params: Scene): UiState{
         try {
             vMixRepository.getWorkingScenes().also { wScenes ->
+                
+                //Check main outputs
                 var sceneState: SceneState
                         = when(params.number) {
                     wScenes.active -> SceneState.ACTIVE
                     wScenes.preview -> SceneState.PREVIEW
                     else -> SceneState.OFF
                 }
+                
+                //Check main overlays
                 if (sceneState != SceneState.ACTIVE) {
                     wScenes.overlays.forEach {
                         if (it.value == params.number) {
@@ -30,6 +34,18 @@ class WorkingScenesUseCase @Inject constructor(
                         }
                     }
                 }
+                
+                //Check input overlays
+                params.overlayList.forEach {
+                    when (it) {
+                        wScenes.active -> sceneState = SceneState.ACTIVE
+                        wScenes.preview ->
+                            if (sceneState != SceneState.ACTIVE) {
+                                sceneState = SceneState.PREVIEW
+                        }
+                    }
+                }
+                
                 return UiState.Ready(sceneState)
             }
         } catch (e: Exception) {

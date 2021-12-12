@@ -20,14 +20,25 @@ class VMixRepositoryImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             vMixApi.renewRetrofit(connectionData)
         }
-        return vMixApi.getData()?.inputs?.map {
-            Scene(
-                it.key,
-                it.number,
-                it.type,
-                it.shortTitle
-            )
+        vMixApi.getData()?.inputs?.also { inputsList ->
+            
+            return inputsList.map { currentIn ->
+                val overList = mutableListOf<Int>()
+                inputsList.forEach { searchIn ->
+                    if (searchIn.overlays.find { it.key == currentIn.key } != null ) {
+                        overList.add(searchIn.number)
+                    }
+                }
+                Scene(
+                    currentIn.key,
+                    currentIn.number,
+                    currentIn.type,
+                    currentIn.shortTitle,
+                    overList
+                )
+            }
         }
+        return listOf()
     }
     
     override suspend fun getWorkingScenes() =
@@ -49,4 +60,5 @@ class VMixRepositoryImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             vMixApi.getData()?.overlay ?: listOf()
         }
+    
 }
