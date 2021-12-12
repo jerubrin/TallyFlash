@@ -1,5 +1,6 @@
 package com.jerubrin.tallyflash.data
 
+import com.jerubrin.tallyflash.data.retrofit.MainOverlay
 import com.jerubrin.tallyflash.entity.ConnectionData
 import com.jerubrin.tallyflash.entity.Scene
 import com.jerubrin.tallyflash.entity.WorkingScenes
@@ -11,11 +12,15 @@ class TestVMixRepository : VMixRepository {
     }
     
     override suspend fun getWorkingScenes() =
-        WorkingScenes(active = ACTIVE_SCENE, preview = PREVIEW_SCENE)
+        WorkingScenes(active = ACTIVE_SCENE, preview = PREVIEW_SCENE, overlays = OVERLAYS)
     
     companion object {
         const val ACTIVE_SCENE = 1
         const val PREVIEW_SCENE = 2
+        val OVERLAYS = listOf(
+            MainOverlay(value = 3, isPreview = true),
+            MainOverlay(value = 4)
+        )
         
         private const val KEY = "fake_key_"
         private const val TYPE = "fake_type_"
