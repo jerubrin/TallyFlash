@@ -13,21 +13,29 @@ class WorkingScenesUseCase @Inject constructor(
     private val vMixRepository: VMixRepository
 ) : BaseUseCase<UiState, Scene>() {
     
-    override suspend fun run(params: Scene): UiState =
+    override suspend fun run(params: Scene): UiState{
         try {
-            val workingScenes = vMixRepository.getWorkingScenes()
-            val active = workingScenes.active
-            val preview = workingScenes.preview
-            val sceneState: SceneState
-                = when(params.number) {
-                    active -> SceneState.ACTIVE
-                    preview -> SceneState.PREVIEW
+            vMixRepository.getWorkingScenes().also { wScenes ->
+                var sceneState: SceneState
+                        = when(params.number) {
+                    wScenes.active -> SceneState.ACTIVE
+                    wScenes.preview -> SceneState.PREVIEW
                     else -> SceneState.OFF
                 }
-            UiState.Ready(sceneState)
+                if (sceneState != SceneState.ACTIVE) {
+                    wScenes.overlays.forEach {
+                        if (it.value == params.number) {
+                            sceneState =
+                                if (it.isPreview) SceneState.PREVIEW else SceneState.ACTIVE
+                        }
+                    }
+                }
+                return UiState.Ready(sceneState)
+            }
         } catch (e: Exception) {
-            UiState.Error(e.localizedMessage ?: "")
+            return UiState.Error(e.localizedMessage ?: "")
         }
+    }
     
     override suspend fun start(params: Scene?): UiState =
         UiState.Loading()
