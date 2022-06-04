@@ -1,5 +1,6 @@
 package com.jerubrin.tallyflash.data
 
+import com.jerubrin.tallyflash.data.retrofit.MainOverlay
 import com.jerubrin.tallyflash.entity.Scene
 import com.jerubrin.tallyflash.entity.WorkingScenes
 import com.jerubrin.tallyflash.data.retrofit.VMixApi
@@ -19,18 +20,29 @@ class VMixRepositoryImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             vMixApi.renewRetrofit(connectionData)
         }
-        return vMixApi.getData()?.inputs?.map {
-            Scene(
-                it.key,
-                it.number,
-                it.type,
-                it.shortTitle
-            )
+        vMixApi.getData()?.inputs?.also { inputsList ->
+            
+            return inputsList.map { currentIn ->
+                val overList = mutableListOf<Int>()
+                inputsList.forEach { searchIn ->
+                    if (searchIn.overlays.find { it.key == currentIn.key } != null ) {
+                        overList.add(searchIn.number)
+                    }
+                }
+                Scene(
+                    currentIn.key,
+                    currentIn.number,
+                    currentIn.type,
+                    currentIn.shortTitle,
+                    overList
+                )
+            }
         }
+        return listOf()
     }
     
     override suspend fun getWorkingScenes() =
-        WorkingScenes( getActive(), getPreview() )
+        WorkingScenes( getActive(), getPreview(), getOverlays() )
     
     
     
@@ -43,4 +55,10 @@ class VMixRepositoryImpl @Inject constructor(
         withContext(Dispatchers.IO) {
             vMixApi.getData()?.active ?: -1
         }
+    
+    private suspend fun getOverlays() : List<MainOverlay> =
+        withContext(Dispatchers.IO) {
+            vMixApi.getData()?.overlay ?: listOf()
+        }
+    
 }
